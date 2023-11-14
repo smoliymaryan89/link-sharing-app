@@ -1,6 +1,6 @@
-/** @type {import('tailwindcss').Config} */
-
 import defaultTheme from "tailwindcss/defaultTheme";
+
+/** @type {import('tailwindcss').Config} */
 
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
@@ -18,6 +18,11 @@ export default {
       },
       fontFamily: {
         sans: ["Instrument Sans", ...defaultTheme.fontFamily.sans],
+      },
+      screens: {
+        sm: "480px",
+        md: "768px",
+        lg: "1200px",
       },
     },
   },
