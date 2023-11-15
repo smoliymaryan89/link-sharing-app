@@ -26,7 +26,7 @@ const LoginForm = () => {
   });
 
   return (
-    <form onSubmit={formik.handleSubmit} className="flex flex-col ">
+    <form onSubmit={formik.handleSubmit} className="flex flex-col" noValidate>
       <label htmlFor={email} className="mb-[4px] text-dark-grey text-[12px] ">
         Email address
       </label>
