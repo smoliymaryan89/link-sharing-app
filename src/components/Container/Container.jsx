@@ -1,8 +1,10 @@
 import PropTypes from "prop-types";
 
-const Container = ({ children }) => {
+const Container = ({ children, className }) => {
   return (
-    <div className="max-w-[375px] px-4 mx-auto md:max-w-[768px] md:px-6 lg:max-w-[1440px]">
+    <div
+      className={`max-w-[375px] px-[16px] mx-auto md:max-w-[768px] md:px-[24px] lg:max-w-[1440px] ${className}`}
+    >
       {children}
     </div>
   );
@@ -10,6 +12,7 @@ const Container = ({ children }) => {
 
 Container.propTypes = {
   children: PropTypes.node.isRequired,
+  className: PropTypes.string,
 };
 
 export default Container;
