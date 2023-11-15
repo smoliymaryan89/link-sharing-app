@@ -3,3 +3,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html {
+    @apply text-grey text-[16px];
+  }
+  body {
+    @apply leading-[1.5] bg-light-grey;
+  }
+}
