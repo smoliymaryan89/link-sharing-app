@@ -40,7 +40,9 @@ const LoginForm = () => {
           placeholder={"e.g. alex@email.com"}
           icon={"email"}
           iconStyle={"fill-grey w-[16px] h-[16px]"}
-          className={` ${formik.errors.email ? "pr-[160px]" : "pr-[44px]"}`}
+          className={` ${
+            formik.errors.email ? "pr-[160px]" : "pr-[44px]"
+          } focus:border-blue box-shadow-input`}
         />
 
         {formik.touched.email && formik.errors.email ? (
@@ -63,7 +65,9 @@ const LoginForm = () => {
           placeholder={"At least .8 characters"}
           icon={"password"}
           iconStyle={"fill-grey w-[16px] h-[16px]"}
-          className={` ${formik.errors.password ? "pr-[160px]" : "pr-[44px]"}`}
+          className={` ${
+            formik.errors.password ? "pr-[160px]" : "pr-[44px]"
+          } focus:border-blue box-shadow-input`}
         />
         {formik.touched.password && formik.errors.password ? (
           <div className="absolute top-[15px] right-[16px] ">
@@ -72,7 +76,13 @@ const LoginForm = () => {
         ) : null}
       </div>
 
-      <Button title={"Create new account"} type="submit" />
+      <Button
+        title={"Create new account"}
+        type="submit"
+        className={
+          "text-white hover:bg-blue hover:opacity-50 hover:text-white transition-all duration-350"
+        }
+      />
     </form>
   );
 };
