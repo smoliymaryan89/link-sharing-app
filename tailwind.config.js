@@ -15,6 +15,8 @@ export default {
         active: "#BEADFF",
         disabled: "rgba(99, 60, 255, 0.25)",
         red: "#FF3939",
+        input: "#D9D9D9",
+        "dark-white": "rgba(217, 217, 217, 1)",
       },
       fontFamily: {
         sans: ["Instrument Sans", ...defaultTheme.fontFamily.sans],
