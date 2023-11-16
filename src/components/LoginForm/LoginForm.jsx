@@ -1,15 +1,20 @@
 import { useFormik } from "formik";
 import { nanoid } from "nanoid";
 
+import { useDispatch } from "react-redux";
+
 import * as validationSchema from "../../utils/validationSchemas";
 
 import Input from "../Input/Input";
 import Button from "../Button/Button";
+import { login } from "../../redux/auth/authOperations";
 
 const email = nanoid();
 const password = nanoid();
 
 const LoginForm = () => {
+  const dispatch = useDispatch();
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -20,13 +25,17 @@ const LoginForm = () => {
       if (!email.trim() || !password.trim()) {
         return;
       }
-      console.log({ email, password });
+      dispatch(login({ email, password }));
       formik.resetForm();
     },
   });
 
   return (
-    <form onSubmit={formik.handleSubmit} className="flex flex-col" noValidate>
+    <form
+      onSubmit={formik.handleSubmit}
+      className="flex flex-col mb-[24px]"
+      noValidate
+    >
       <label htmlFor={email} className="mb-[4px] text-dark-grey text-[12px] ">
         Email address
       </label>

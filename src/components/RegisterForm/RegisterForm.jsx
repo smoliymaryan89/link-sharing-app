@@ -1,16 +1,26 @@
 import { useFormik } from "formik";
 import { nanoid } from "nanoid";
 
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 import * as validationSchema from "../../utils/validationSchemas";
 
 import Input from "../Input/Input";
 import Button from "../Button/Button";
+import { register } from "../../redux/auth/authOperations";
+import useAuth from "../../hooks/useAuth";
 
 const email = nanoid();
 const password = nanoid();
 const confirmPassword = nanoid();
 
 const RegisterForm = () => {
+  const dispatch = useDispatch();
+
+  const { error } = useAuth();
+  const navigate = useNavigate();
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -22,13 +32,23 @@ const RegisterForm = () => {
       if (!email.trim() || !password.trim() || !confirmPassword.trim()) {
         return;
       }
-      console.log({ email, password, confirmPassword });
+
+      dispatch(register({ email, password }));
+
+      if (error === null) {
+        navigate("/login");
+      }
+
       formik.resetForm();
     },
   });
 
   return (
-    <form onSubmit={formik.handleSubmit} className="flex flex-col" noValidate>
+    <form
+      onSubmit={formik.handleSubmit}
+      className="flex flex-col mb-[24px]"
+      noValidate
+    >
       <label htmlFor={email} className="mb-[4px] text-dark-grey text-[12px] ">
         Email address
       </label>
