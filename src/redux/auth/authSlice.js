@@ -1,23 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { logOut, login, refreshUser, register } from "./authOperations";
-
-const handleFulfilled = (state) => {
-  state.isLoading = false;
-  state.error = null;
-};
-
-const handlePending = (state) => {
-  state.isLoading = true;
-  state.error = null;
-};
-
-const handleRejected = (state, { payload }) => {
-  state.isLoading = false;
-  state.error = {
-    message: payload.response?.data?.message,
-    status: payload.response?.status,
-  };
-};
+import {
+  handleFulfilled,
+  handlePending,
+  handleRejected,
+} from "../../utils/handlers";
 
 const initialState = {
   user: {
@@ -27,7 +14,6 @@ const initialState = {
   },
   token: null,
   isLoggedIn: false,
-  isLoading: false,
   isRefreshing: false,
   error: null,
 };
