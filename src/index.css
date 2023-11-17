@@ -12,3 +12,42 @@
     @apply leading-[1.5] bg-light-grey;
   }
 }
+
+.active {
+  @apply flex items-center gap-[8px] font-semibold text-blue py-[11px] px-[27px] bg-light-purple rounded-[8px];
+}
+
+.active svg {
+  @apply fill-blue;
+}
+
+.header-link:hover svg {
+  @apply fill-white;
+}
+.header-link:hover p {
+  @apply text-white;
+}
+
+.nav-link:hover p {
+  @apply text-blue;
+}
+
+.nav-link:hover svg {
+  @apply fill-blue;
+}
+
+.section {
+  @apply pt-[16px] pb-[40px] md:pb-[24px] md:pt-0;
+}
+
+.box-shadow-input:focus {
+  box-shadow: 0px 0px 32px 0px rgba(99, 60, 255, 0.25);
+}
+
+.profile-input {
+  @apply px-[16px];
+}
+
+.circle {
+  border-radius: 50%;
+}
