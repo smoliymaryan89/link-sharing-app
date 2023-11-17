@@ -10,4 +10,7 @@ export default defineConfig({
       symbolId: "icon-[name]-[hash]",
     }),
   ],
+  server: {
+    open: true,
+  },
 });

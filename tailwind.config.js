@@ -22,9 +22,12 @@ export default {
         sans: ["Instrument Sans", ...defaultTheme.fontFamily.sans],
       },
       screens: {
-        sm: "480px",
+        sm: { max: "767px" },
         md: "768px",
         lg: "1200px",
+      },
+      transitionDuration: {
+        350: "350ms",
       },
     },
   },
