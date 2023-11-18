@@ -1,0 +1,92 @@
+.custom-select__indicator-separator {
+  @apply hidden;
+}
+
+.custom-select__control {
+  border-radius: 8px !important;
+  border-color: #d9d9d9 !important;
+  outline: none !important;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+.custom-select__control:focus-within {
+  border-color: #633cff !important;
+  box-shadow: 0px 0px 32px 0px rgba(99, 60, 255, 0.25) !important;
+}
+
+.custom-select__value-container {
+  padding: 0 !important;
+}
+
+.custom-select__single-value {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 !important;
+}
+
+.custom-select__indicator {
+  padding: 0 !important;
+  padding-left: 12px !important;
+
+  transform: rotate(0deg);
+  transition: 0.3s;
+}
+
+.custom-select__indicator svg {
+  fill: #633cff;
+}
+
+.custom-select__control--menu-is-open .custom-select__indicator svg {
+  fill: #633cff;
+  transform: rotate(180deg);
+  transition: 0.3s;
+}
+
+.custom-select__menu {
+  padding: 0px 16px !important;
+  overflow: hidden !important;
+  border-radius: 8px !important;
+  box-shadow: 0px 0px 32px 0px rgba(0, 0, 0, 0.1) !important;
+  border-color: #d9d9d9 !important;
+  background-color: #fff !important;
+  /* max-height: 146px !important; */
+  margin-bottom: 0px !important;
+}
+
+@media screen and (max-width: 767.98px) {
+  .custom-select__menu {
+    max-height: 146px !important;
+  }
+}
+
+.custom-select__MenuList2 {
+  padding: 0 !important;
+}
+
+.custom-select__option {
+  display: flex !important;
+  align-items: center;
+  gap: 12px;
+  padding: 0 !important;
+  border-bottom: 1px solid #d9d9d9;
+  padding-top: 12px !important;
+  padding-bottom: 12px !important;
+}
+
+.custom-select__option--is-focused {
+  background-color: transparent !important;
+}
+.custom-select__option--is-selected {
+  background-color: transparent !important;
+}
+
+.custom-select__option--is-selected svg {
+  fill: #633cff;
+}
+
+.custom-select__option--is-selected span {
+  color: #633cff;
+}
