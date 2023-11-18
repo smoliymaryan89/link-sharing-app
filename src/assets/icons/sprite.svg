@@ -94,6 +94,11 @@
       <path fill="#333" style="fill:var(--color2, #333)" opacity=".1" d="m28.223 31.901-.057-9.72-2.816-.619-.504 10.339h3.378z"/>
     </symbol>
 
+    <symbol id="line" viewBox="0 0 64 32">
+      <path fill="#737373" style="fill:var(--color1, #737373)" d="M0 0h64v5.333H0V0zM0 26.667h64V32H0v-5.333z"/>
+    </symbol>
+
+
 
 
   </defs>
