@@ -10,6 +10,8 @@ import PrivateRoute from "./guards/PrivateRoute";
 import PublicRoute from "./guards/PublicRoute";
 
 import Layout from "./layouts/Layout";
+import { fetchUserData, getProfile } from "./redux/user/userOperations";
+import Loader from "./components/Loader/Loader";
 
 const RegisterPage = lazy(() => import("./pages/RegisterPage"));
 const LoginPage = lazy(() => import("./pages/LoginPage"));
@@ -20,11 +22,20 @@ const NotFoundPage = lazy(() => import("./pages/NotFoundPage"));
 
 const App = () => {
   const dispatch = useDispatch();
-  const { isRefreshing } = useAuth();
+  const { isRefreshing, isLoading } = useAuth();
+
+  useEffect(() => {
+    dispatch(fetchUserData());
+    dispatch(getProfile());
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(refreshUser());
   }, [dispatch]);
+
+  if (isRefreshing && isLoading) {
+    return <Loader />;
+  }
 
   return (
     !isRefreshing && (
