@@ -1,15 +1,13 @@
-import { useFormik } from "formik";
 import { nanoid } from "nanoid";
+import { useFormik } from "formik";
 
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { register } from "../../redux/auth/authOperations";
 
-import * as validationSchema from "../../utils/validationSchemas";
+import { registerValidationSchema } from "../../utils/validationSchemas";
 
 import Input from "../Input/Input";
 import Button from "../Button/Button";
-import { register } from "../../redux/auth/authOperations";
-import useAuth from "../../hooks/useAuth";
 
 const email = nanoid();
 const password = nanoid();
@@ -18,26 +16,19 @@ const confirmPassword = nanoid();
 const RegisterForm = () => {
   const dispatch = useDispatch();
 
-  const { error } = useAuth();
-  const navigate = useNavigate();
-
   const formik = useFormik({
     initialValues: {
       email: "",
       password: "",
       confirmPassword: "",
     },
-    validationSchema: validationSchema.registerValidationSchema,
+    validationSchema: registerValidationSchema,
     onSubmit: ({ email, password, confirmPassword }) => {
       if (!email.trim() || !password.trim() || !confirmPassword.trim()) {
         return;
       }
 
       dispatch(register({ email, password }));
-
-      if (error === null) {
-        navigate("/login");
-      }
 
       formik.resetForm();
     },
@@ -58,6 +49,7 @@ const RegisterForm = () => {
           name="email"
           type="email"
           onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
           value={formik.values.email}
           placeholder={"e.g. alex@email.com"}
           icon={"email"}
@@ -83,6 +75,7 @@ const RegisterForm = () => {
           name="password"
           type="password"
           onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
           value={formik.values.password}
           placeholder={"At least .8 characters"}
           icon={"password"}
