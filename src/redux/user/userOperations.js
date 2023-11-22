@@ -44,7 +44,10 @@ export const updateUserAvatar = createAsyncThunk(
           "Content-Type": "multipart/form-data",
         },
       });
+
+      console.log(credentials);
       console.log(data);
+
       return data;
     } catch (error) {
       return rejectWithValue(error);
@@ -63,11 +66,13 @@ export const updateUserProfile = createAsyncThunk(
       emailPreview,
     };
 
+    if (profileData.emailPreview.trim() === "") {
+      delete profileData.emailPreview;
+    }
+
     try {
       setAuthHeader(token);
       const { data } = await instance.patch(`api/profile/${id}`, profileData);
-
-      console.log(data);
 
       return data;
     } catch (error) {
