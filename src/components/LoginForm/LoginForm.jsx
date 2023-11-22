@@ -1,9 +1,9 @@
 import { useFormik } from "formik";
 import { nanoid } from "nanoid";
 
-import { useDispatch } from "react-redux";
+import { loginValidationSchema } from "../../utils/validationSchemas";
 
-import * as validationSchema from "../../utils/validationSchemas";
+import { useDispatch } from "react-redux";
 
 import Input from "../Input/Input";
 import Button from "../Button/Button";
@@ -20,7 +20,7 @@ const LoginForm = () => {
       email: "",
       password: "",
     },
-    validationSchema: validationSchema.loginValidationSchema,
+    validationSchema: loginValidationSchema,
     onSubmit: ({ email, password }) => {
       if (!email.trim() || !password.trim()) {
         return;
@@ -56,13 +56,13 @@ const LoginForm = () => {
 
         {formik.touched.email && formik.errors.email ? (
           <div className="absolute top-[15px] right-[16px] ">
-            <p className="text-red text-[12px]"> {formik.errors.email}</p>
+            <p className="text-red text-[12px]">{formik.errors.email}</p>
           </div>
         ) : null}
       </div>
 
       <label htmlFor={password} className="mb-[4px] text-dark-grey text-[12px]">
-        Create password
+        Password
       </label>
       <div className="relative mb-[24px]">
         <Input
@@ -86,7 +86,7 @@ const LoginForm = () => {
       </div>
 
       <Button
-        title={"Create new account"}
+        title={"Login"}
         type="submit"
         className={
           "text-white hover:bg-blue hover:opacity-50 hover:text-white transition-all duration-350"
