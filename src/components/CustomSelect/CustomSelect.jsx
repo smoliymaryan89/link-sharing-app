@@ -1,12 +1,9 @@
 import PropTypes from "prop-types";
 
-import { useState } from "react";
 import Select, { components } from "react-select";
 
-import links from "../../utils/selectData";
-
 const Option = (props) => (
-  <components.Option {...props} classNameName="">
+  <components.Option {...props}>
     <svg className="fill-grey " width="16" height="16">
       <use href={props.data.icon}></use>
     </svg>
@@ -15,13 +12,14 @@ const Option = (props) => (
   </components.Option>
 );
 
-const CustomeSelect = () => {
-  const [selectedLink, setSelectedLink] = useState(links[0]);
-
-  const handleChange = (value) => {
-    setSelectedLink(value);
-  };
-
+const CustomSelect = ({
+  platformId,
+  className,
+  handleChange,
+  selectedLink,
+  setSelectedLink,
+  options,
+}) => {
   const SingleValue = ({ children, ...props }) => (
     <components.SingleValue {...props}>
       <svg className="fill-grey " width="16" height="16">
@@ -34,8 +32,10 @@ const CustomeSelect = () => {
 
   return (
     <Select
+      name="platform"
+      id={platformId}
       value={selectedLink}
-      options={links}
+      options={options}
       onChange={handleChange}
       classNamePrefix="custom-select"
       isSearchable={false}
@@ -43,6 +43,7 @@ const CustomeSelect = () => {
         Option,
         SingleValue,
       }}
+      className={className}
       styles={{
         menuList: (base) => ({
           ...base,
@@ -56,22 +57,4 @@ const CustomeSelect = () => {
   );
 };
 
-export default CustomeSelect;
-
-Option.propTypes = {
-  data: PropTypes.shape({
-    icon: PropTypes.string.isRequired,
-    label: PropTypes.string.isRequired,
-  }).isRequired,
-};
-
-CustomeSelect.propTypes = {
-  links: PropTypes.arrayOf(
-    PropTypes.shape({
-      label: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired,
-      icon: PropTypes.string.isRequired,
-    })
-  ),
-  children: PropTypes.node,
-};
+export default CustomSelect;
