@@ -22,7 +22,7 @@ export const register = createAsyncThunk(
   "auth/register",
   async (credentials, { rejectWithValue }) => {
     try {
-      const { data } = await instance.post("api/auth/register", credentials);
+      const { data } = await instance.post("/api/auth/register", credentials);
 
       return data;
     } catch (error) {
@@ -35,12 +35,11 @@ export const login = createAsyncThunk(
   "auth/login",
   async (credentials, { rejectWithValue }) => {
     try {
-      const { data } = await instance.post("api/auth/login", credentials);
+      const { data } = await instance.post("/api/auth/login", credentials);
 
       setAuthHeader(data.token);
       return data;
     } catch (error) {
-      console.log(error);
       return rejectWithValue(error);
     }
   }
@@ -69,7 +68,7 @@ export const refreshUser = createAsyncThunk(
 
     try {
       setAuthHeader(token);
-      const { data } = await instance.get("api/auth/current");
+      const { data } = await instance.get("/api/auth/current");
       return data;
     } catch (error) {
       return rejectWithValue(error);
