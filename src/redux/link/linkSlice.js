@@ -1,10 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createLink, deleteLink, getAllLinks } from "./linkOperations";
-import {
-  handleFulfilled,
-  handlePending,
-  handleRejected,
-} from "../../utils/handlers";
+import { addLink, deleteLink, getAllLinks } from "./linkOperations";
 
 const initialState = {
   links: [],
@@ -15,24 +10,23 @@ const linkSlice = createSlice({
   name: "link",
   initialState,
   reducers: {
-    getLinkData: (state, action) => {
-      const { id, link, platform } = action.payload;
+    getData: (state, { payload }) => {
+      const { id, url, platform } = payload;
       const existingLink = state.previewLinks.find(
         (existing) => existing.id === id
       );
-
       if (existingLink) {
-        if (link !== undefined) {
-          existingLink.link = link;
+        if (url !== undefined) {
+          existingLink.url = url;
         }
         if (platform !== undefined) {
           existingLink.platform = platform;
         }
       } else {
-        state.previewLinks.push({ id, link, platform });
+        state.previewLinks.push({ id, url, platform });
       }
     },
-    removePreviewLink: (state, action) => {
+    deletePreviewLink: (state, action) => {
       state.previewLinks = state.previewLinks.filter(
         (item) => item.id !== action.payload
       );
@@ -40,33 +34,30 @@ const linkSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(createLink.fulfilled, (state, { payload }) => {
-        state.links.push(payload);
+      .addCase(addLink.fulfilled, (state, { payload }) => {
+        payload.links.forEach((link) => {
+          if (!state.links.some((stateLink) => stateLink.id === link.id)) {
+            state.links.push(link);
+          }
+        });
+
+        state.previewLinks = [];
       })
       .addCase(getAllLinks.fulfilled, (state, { payload }) => {
-        state.links.push(...payload);
+        payload.forEach((item) => {
+          item.links.forEach((link) => {
+            if (!state.links.some((stateLink) => stateLink.id === link.id)) {
+              state.links.push(link);
+            }
+          });
+        });
       })
       .addCase(deleteLink.fulfilled, (state, { payload }) => {
-        const index = state.links[0]?.platform.findIndex(
-          (item) => item.id === payload.id
-        );
-        state.links[0]?.platform.splice(index, 1);
-
-        if (state.links[0]?.platform.length === 0) {
-          state.links = [];
-        }
-      })
-      .addMatcher(
-        (action) => action.type.endsWith("/fulfilled"),
-        handleFulfilled
-      )
-      .addMatcher((action) => action.type.endsWith("/pending"), handlePending)
-      .addMatcher(
-        (action) => action.type.endsWith("/rejected"),
-        handleRejected
-      );
+        const index = state.links.findIndex((item) => item.id === payload.id);
+        state.links.splice(index, 1);
+      });
   },
 });
 
-export const { getLinkData, removePreviewLink } = linkSlice.actions;
+export const { getData, deletePreviewLink } = linkSlice.actions;
 export const linkReducer = linkSlice.reducer;
