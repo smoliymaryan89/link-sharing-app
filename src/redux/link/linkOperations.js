@@ -1,14 +1,14 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { instance, setAuthHeader } from "../auth/authOperations";
 
-export const createLink = createAsyncThunk(
+export const addLink = createAsyncThunk(
   "link/addLink",
-  async ({ platform }, { rejectWithValue }) => {
+  async (linkData, { rejectWithValue }) => {
     const token = localStorage.getItem("token");
 
     try {
       setAuthHeader(token);
-      const { data } = await instance.post("/api/link/", { platform });
+      const { data } = await instance.post("api/link/", { links: linkData });
 
       return data;
     } catch (error) {
@@ -18,13 +18,15 @@ export const createLink = createAsyncThunk(
 );
 
 export const getAllLinks = createAsyncThunk(
-  "link/getAllLinks",
+  "link/getLinks",
   async (_, { rejectWithValue }) => {
     const token = localStorage.getItem("token");
 
     try {
       setAuthHeader(token);
-      const { data } = await instance.get("/api/link/");
+      const { data } = await instance.get(`api/link`);
+
+      console.log("data", data);
 
       return data;
     } catch (error) {
@@ -35,12 +37,12 @@ export const getAllLinks = createAsyncThunk(
 
 export const deleteLink = createAsyncThunk(
   "link/deleteLink",
-  async ({ id }, { rejectWithValue }) => {
+  async (id, { rejectWithValue }) => {
     const token = localStorage.getItem("token");
 
     try {
       setAuthHeader(token);
-      const { data } = await instance.delete(`/api/link/${id}`);
+      const { data } = await instance.delete(`api/link/${id}`);
 
       return data;
     } catch (error) {

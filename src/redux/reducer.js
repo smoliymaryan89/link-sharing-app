@@ -1,6 +1,6 @@
 import { authReducer } from "./auth/authSlice";
-import { userReducer } from "./user/userSlice";
 import { linkReducer } from "./link/linkSlice";
+import { userReducer } from "./user/userSlice";
 
 export const reducer = {
   auth: authReducer,

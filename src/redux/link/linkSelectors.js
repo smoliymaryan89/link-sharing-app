@@ -1,3 +1,3 @@
-export const selectLink = (state) => state.link.links;
+export const selectLinks = (state) => state.link.links;
 
 export const selectPreviewLinks = (state) => state.link.previewLinks;
