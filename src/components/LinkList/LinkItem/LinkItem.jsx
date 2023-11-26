@@ -1,20 +1,20 @@
+import PropTypes from "prop-types";
+
 import { nanoid } from "nanoid";
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
+import { deletePreviewLink, getData } from "../../../redux/link/linkSlice";
+import { deleteLink } from "../../../redux/link/linkOperations";
+import { selectPreviewLinks } from "../../../redux/link/linkSelectors";
 
 import sprite from "../../../assets/icons/sprite.svg";
-import link from "../../../utils/selectData";
+import options from "../../../utils/selectData";
 
 import Button from "../../Button/Button";
 import CustomSelect from "../../CustomSelect/CustomSelect";
 import Input from "../../Input/Input";
-import { deletePreviewLink, getData } from "../../../redux/link/linkSlice";
-import { deleteLink } from "../../../redux/link/linkOperations";
-import {
-  selectLinks,
-  selectPreviewLinks,
-} from "../../../redux/link/linkSelectors";
+import getPlaceholder from "../../../utils/getPlaceholder";
 
 const platformId = nanoid();
 const linkId = nanoid();
@@ -23,7 +23,7 @@ const LinkItem = ({ handleDelete, item, linkList }) => {
   const { id: itemId, url, platform } = item;
 
   const [selectedLink, setSelectedLink] = useState();
-  const [linkUrl, setLinkUrl] = useState(url);
+  const [linkUrl, setLinkUrl] = useState("");
 
   const previewLink = useSelector(selectPreviewLinks);
 
@@ -31,11 +31,17 @@ const LinkItem = ({ handleDelete, item, linkList }) => {
 
   const handleChange = (value) => {
     setSelectedLink(value);
+
     dispatch(getData({ id: itemId, platform: value }));
   };
 
   const handleInput = (e) => {
     setLinkUrl(e.target.value);
+
+    if (!linkUrl.trim()) {
+      return;
+    }
+
     dispatch(getData({ id: itemId, url: e.target.value }));
   };
 
@@ -76,9 +82,9 @@ const LinkItem = ({ handleDelete, item, linkList }) => {
         <CustomSelect
           platformId={platformId}
           className={"mb-[12px]"}
-          selectedLink={platform ?? selectedLink}
+          selectedLink={selectedLink ?? platform}
           handleChange={handleChange}
-          options={link}
+          options={options}
         />
 
         <label
@@ -88,16 +94,32 @@ const LinkItem = ({ handleDelete, item, linkList }) => {
           Link
         </label>
         <Input
+          type="text"
           name="linkUrl"
-          value={linkUrl}
+          value={linkUrl ?? url}
           id={linkId}
           icon={"link"}
           iconStyle={"w-[16px] h-[16px] fill-grey"}
           onChange={handleInput}
+          placeholder={getPlaceholder(selectedLink)}
         />
       </div>
     </li>
   );
+};
+
+LinkItem.propTypes = {
+  handleDelete: PropTypes.func,
+  item: PropTypes.shape({
+    id: PropTypes.string,
+    url: PropTypes.string,
+    platform: PropTypes.object,
+  }).isRequired,
+  linkList: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+    })
+  ),
 };
 
 export default LinkItem;
