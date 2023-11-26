@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { nanoid } from "nanoid";
 
 import { useDispatch, useSelector } from "react-redux";
 import { selectLinks, selectPreviewLinks } from "../redux/link/linkSelectors";
-import { addLink } from "../redux/link/linkOperations";
+import { addLink, updateLink } from "../redux/link/linkOperations";
 
 import sprite from "../assets/icons/sprite.svg";
 
@@ -12,20 +12,32 @@ import InfoPanel from "../components/InfoPanel/InfoPanel";
 import Button from "../components/Button/Button";
 import LinkList from "../components/LinkList/LinkList";
 import LinkItem from "../components/LinkList/LinkItem/LinkItem";
+import findMatchingLink from "../utils/findMatchingLink";
 
 const LinksPage = () => {
   const [linkList, setLinkList] = useState([]);
 
   const dispatch = useDispatch();
-  const previewLinksData = useSelector(selectPreviewLinks);
+  const previewLinks = useSelector(selectPreviewLinks);
   const links = useSelector(selectLinks);
 
   const handleAddLink = () => {
     setLinkList([...linkList, { id: nanoid() }]);
   };
 
+  const matchingLink = findMatchingLink(previewLinks, links);
+
   const handleSave = () => {
-    dispatch(addLink(previewLinksData));
+    if (previewLinks.length === 0) {
+      return;
+    }
+
+    if (matchingLink) {
+      dispatch(updateLink({ id: matchingLink.id, links: previewLinks }));
+      return;
+    }
+
+    dispatch(addLink(previewLinks));
     setLinkList([]);
   };
 
@@ -45,7 +57,7 @@ const LinksPage = () => {
           />
           <Button
             title="+ Add new link"
-            className="w-full bg-transparent border-[1px] border-blue rounded-[12px] mb-[24px] hover:bg-light-purple transition-all duration-350"
+            className="w-full bg-transparent border-[1px] border-blue rounded-[12px] text-blue mb-[24px] hover:bg-light-purple transition-all duration-350"
             type={"button"}
             onClick={handleAddLink}
           />
@@ -63,22 +75,24 @@ const LinksPage = () => {
             </div>
           )}
 
-          <div className=" link-list overflow-y-auto max-h-[525px]">
-            {linkList.length > 0 && (
-              <ul>
-                {linkList.map((item) => (
-                  <LinkItem
-                    key={item.id}
-                    linkList={linkList}
-                    handleDelete={handleDelete}
-                    item={item}
-                  />
-                ))}
-              </ul>
-            )}
+          {(linkList.length > 0 || links.length > 0) && (
+            <div className="link-list overflow-y-auto h-[510px]">
+              {linkList.length > 0 && (
+                <ul>
+                  {linkList.map((item) => (
+                    <LinkItem
+                      key={item.id}
+                      linkList={linkList}
+                      handleDelete={handleDelete}
+                      item={item}
+                    />
+                  ))}
+                </ul>
+              )}
 
-            <LinkList />
-          </div>
+              <LinkList />
+            </div>
+          )}
 
           <Button
             type={"button"}
