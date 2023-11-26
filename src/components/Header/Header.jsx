@@ -20,7 +20,7 @@ const Header = () => {
         <Navigation />
         <Link
           to="/preview"
-          className="block py-[11px] px-[16px] border-[1px] border-blue rounded-[8px] hover:bg-blue header-link transition-colors duration-350 ease-in-out"
+          className="block py-[11px] px-[16px] border-[1px]  border-blue rounded-[8px] hover:bg-light-purple header-link transition-all duration-350 ease-in-out"
         >
           <svg
             className="block fill-blue transition-colors duration-350 ease-in-out md:hidden"
