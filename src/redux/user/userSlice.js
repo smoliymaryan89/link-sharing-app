@@ -45,14 +45,16 @@ const userSlice = createSlice({
         };
       })
       .addCase(getProfile.fulfilled, (state, { payload }) => {
-        const { lastName, firstName, emailPreview } = payload;
+        if (payload) {
+          const { lastName, firstName, emailPreview } = payload;
 
-        state.user = {
-          ...state.user,
-          lastName,
-          firstName,
-          emailPreview,
-        };
+          state.user = {
+            ...state.user,
+            lastName,
+            firstName,
+            emailPreview,
+          };
+        }
       })
       .addCase(updateUserAvatar.fulfilled, (state, { payload }) => {
         state.user.image = payload.avatar;
