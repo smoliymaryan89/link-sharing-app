@@ -1,6 +1,6 @@
 import sprite from "../assets/icons/sprite.svg";
 
-const links = [
+const options = [
   {
     value: "github",
     label: "GitHub",
@@ -43,7 +43,6 @@ const links = [
     icon: `#${sprite}_codewars`,
     color: "bg-[#8A1A50]",
   },
-  // TODO change color
   {
     value: "codepen",
     label: "Codepen",
@@ -76,4 +75,4 @@ const links = [
   },
 ];
 
-export default links;
+export default options;
