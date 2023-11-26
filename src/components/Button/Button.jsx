@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 const Button = ({ className, type, title, disabled, onClick }) => {
   return (
     <button
-      className={` w-full rounded-[8px] py-[11px] px-[80px] bg-blue  font-semibold ${className}`}
+      className={`rounded-[8px] py-[11px] px-[80px] bg-blue  font-semibold ${className}`}
       type={type}
       disabled={disabled}
       onClick={onClick}
