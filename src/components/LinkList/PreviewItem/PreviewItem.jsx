@@ -1,20 +1,25 @@
 import sprite from "../../../assets/icons/sprite.svg";
 
-const PreviewItem = ({ id, color, icon, url, label }) => {
+const PreviewItem = ({ platform, url }) => {
   return (
     <li
-      key={id}
-      className={`flex items-center w-[237px] ${color} py-[14px] px-[16px] rounded-[8px] mb-[18px] last:mb-0`}
+      className={`w-[237px] ${platform?.color} rounded-[8px] mb-[18px] last:mb-0`}
     >
-      <svg className="block mr-[8px] fill-white" width="16" height="16">
-        <use href={icon}></use>
-      </svg>
-      <a href={url} className="text-white text-[12px]">
-        {label}
+      <a
+        href={url}
+        target="_blank"
+        rel="noreferrer noopener"
+        className="text-white flex items-center text-[12px] py-[14px] px-[16px]"
+      >
+        <svg className="block mr-[8px] fill-white" width="16" height="16">
+          <use href={platform?.icon}></use>
+        </svg>
+        {platform?.label}
+
+        <svg className="block fill-white ml-auto" width="16" height="16">
+          <use href={`#${sprite}_arrow`}></use>
+        </svg>
       </a>
-      <svg className="block fill-white ml-auto" width="16" height="16">
-        <use href={`#${sprite}_arrow`}></use>
-      </svg>
     </li>
   );
 };
