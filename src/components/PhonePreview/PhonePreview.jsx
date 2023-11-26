@@ -1,11 +1,21 @@
 import { useSelector } from "react-redux";
 import { selectUser } from "../../redux/user/userSelectors";
+import {
+  selectLinks,
+  selectPreviewLinks,
+} from "../../redux/link/linkSelectors";
 
 import PhoneIcon from "../../assets/icons/phone.svg";
+import PreviewItem from "../LinkList/PreviewItem/PreviewItem";
 
 const PhonePreview = () => {
   const { image, imagePreview, lastName, firstName, emailPreview } =
     useSelector(selectUser);
+
+  const links = useSelector(selectLinks);
+  const previewLinks = useSelector(selectPreviewLinks);
+
+  const linksArray = [...links, ...previewLinks];
 
   //TODO add border color when its focus
 
@@ -37,17 +47,24 @@ const PhonePreview = () => {
           </div>
         </div>
 
-        {imagePreview ? (
+        {(imagePreview && (
           <img
             src={imagePreview}
             className="rounded-full w-24 h-24 absolute top-[166px] left-[230px] object-cover"
           />
-        ) : (
-          <img
-            src={image}
-            className="rounded-full w-24 h-24 absolute top-[166px] left-[230px] object-cover"
-          />
-        )}
+        )) ||
+          (image && (
+            <img
+              src={image}
+              className="rounded-full w-24 h-24 absolute top-[166px] left-[230px] object-cover"
+            />
+          ))}
+
+        <ul className="absolute top-[379px] left-[161px]">
+          {linksArray.slice(0, 5).map(({ id, platform, url }) => (
+            <PreviewItem key={id} id={id} platform={platform} url={url} />
+          ))}
+        </ul>
 
         <svg className="w-full h-full ">
           <use href={`#${PhoneIcon}`}></use>
