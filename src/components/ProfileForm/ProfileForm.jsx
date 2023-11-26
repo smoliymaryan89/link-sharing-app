@@ -1,33 +1,54 @@
 import { useFormik } from "formik";
 import { nanoid } from "nanoid";
 
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { updateUser } from "../../redux/user/userSlice";
+import {
+  updateUserAvatar,
+  updateUserProfile,
+} from "../../redux/user/userOperations";
+import { selectUser } from "../../redux/user/userSelectors";
+
 import sprite from "../../assets/icons/sprite.svg";
 import Input from "../Input/Input";
 import Button from "../Button/Button";
-import { useState } from "react";
-
-import { useDispatch } from "react-redux";
-import { updateUser } from "../../redux/user/userSlice";
 
 const firstName = nanoid();
 const lastName = nanoid();
-const email = nanoid();
+const emailPreview = nanoid();
 
 const ProfileForm = () => {
-  const dispatch = useDispatch();
+  // TODO add validation add loader // maybe dont need to change email in base
 
   const [avatar, setAvatar] = useState("");
+
+  const { id } = useSelector(selectUser);
+
+  const dispatch = useDispatch();
 
   const formik = useFormik({
     initialValues: {
       image: avatar,
       firstName: "",
       lastName: "",
-      email: "",
+      emailPreview: "",
     },
 
-    onSubmit: (data) => {
-      console.log(data);
+    onSubmit: ({ image, firstName, lastName, emailPreview }) => {
+      const formData = new FormData();
+      if (image) {
+        formData.append("avatarURL", image);
+        dispatch(updateUserAvatar(formData));
+      }
+
+      if (!firstName.trim() || !lastName.trim()) {
+        return;
+      }
+
+      dispatch(updateUserProfile({ firstName, lastName, emailPreview, id }));
+
+      formik.resetForm();
     },
   });
 
@@ -41,7 +62,7 @@ const ProfileForm = () => {
       reader.onload = () => {
         setAvatar(reader.result);
 
-        dispatch(updateUser({ image: reader.result }));
+        dispatch(updateUser({ imagePreview: reader.result }));
       };
 
       formik.setFieldValue("image", file);
@@ -144,17 +165,17 @@ const ProfileForm = () => {
         </div>
         <div className="md:flex md:items-center md:justify-between">
           <label
-            htmlFor={email}
+            htmlFor={emailPreview}
             className="mb-[4px] md:mb-0 text-grey text-[12px] md:text-[16px]"
           >
             Email
           </label>
           <Input
-            id={email}
-            name="email"
+            id={emailPreview}
+            name="emailPreview"
             onChange={handleInputChange}
-            value={formik.values.email}
-            type="email"
+            value={formik.values.emailPreview}
+            type="emailPreview"
             placeholder={"e.g. email@example.com"}
             iconStyle={"hidden"}
             className={"profile-input md:w-[432px]"}
@@ -166,7 +187,7 @@ const ProfileForm = () => {
         type="submit"
         title={"Save"}
         className={
-          "block text-white hover:bg-blue hover:opacity-50 hover:text-white transition-all duration-350 md:py-[11px] md:px-[27px] md:w-[91px] md:ml-auto  "
+          "block text-white sm:w-full hover:bg-blue hover:opacity-50 hover:text-white transition-all duration-350 md:py-[11px] md:px-[27px] md:w-[91px] md:ml-auto  "
         }
       />
     </form>
