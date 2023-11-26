@@ -6,6 +6,8 @@ export const addLink = createAsyncThunk(
   async (linkData, { rejectWithValue }) => {
     const token = localStorage.getItem("token");
 
+    console.log("linkData", linkData);
+
     try {
       setAuthHeader(token);
       const { data } = await instance.post("api/link/", { links: linkData });
@@ -25,6 +27,24 @@ export const getAllLinks = createAsyncThunk(
     try {
       setAuthHeader(token);
       const { data } = await instance.get(`api/link`);
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
+export const updateLink = createAsyncThunk(
+  "link/updateLink",
+  async ({ id, links }, { rejectWithValue }) => {
+    const token = localStorage.getItem("token");
+
+    try {
+      setAuthHeader(token);
+      const { data } = await instance.patch(`api/link/${id}`, {
+        ...links,
+      });
 
       return data;
     } catch (error) {
