@@ -23,7 +23,7 @@ const LinkItem = ({ handleDelete, item, linkList }) => {
   const { id: itemId, url, platform } = item;
 
   const [selectedLink, setSelectedLink] = useState();
-  const [linkUrl, setLinkUrl] = useState("");
+  const [linkUrl, setLinkUrl] = useState(url ?? "");
 
   const previewLink = useSelector(selectPreviewLinks);
 
@@ -96,7 +96,7 @@ const LinkItem = ({ handleDelete, item, linkList }) => {
         <Input
           type="text"
           name="linkUrl"
-          value={linkUrl ?? url}
+          value={linkUrl}
           id={linkId}
           icon={"link"}
           iconStyle={"w-[16px] h-[16px] fill-grey"}
