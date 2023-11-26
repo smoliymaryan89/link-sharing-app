@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 import sprite from "../../../assets/icons/sprite.svg";
 
 const PreviewItem = ({ platform, url }) => {
@@ -22,6 +24,15 @@ const PreviewItem = ({ platform, url }) => {
       </a>
     </li>
   );
+};
+
+PreviewItem.propTypes = {
+  platform: PropTypes.shape({
+    color: PropTypes.string.isRequired,
+    icon: PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired,
+  }).isRequired,
+  url: PropTypes.string,
 };
 
 export default PreviewItem;
