@@ -15,7 +15,11 @@ const PhonePreview = () => {
   const links = useSelector(selectLinks);
   const previewLinks = useSelector(selectPreviewLinks);
 
-  const linksArray = [...links, ...previewLinks];
+  const nonMatchingPreviewLinks = previewLinks.filter(
+    (previewLink) => !links.some((link) => link.id === previewLink.id)
+  );
+
+  const linksArray = [...links, ...nonMatchingPreviewLinks];
 
   //TODO add border color when its focus
 
@@ -50,13 +54,13 @@ const PhonePreview = () => {
         {(imagePreview && (
           <img
             src={imagePreview}
-            className="rounded-full w-24 h-24 absolute top-[166px] left-[230px] object-cover"
+            className="rounded-full w-24 h-24 absolute top-[166px] left-[230px] object-cover border-[4px] border-blue"
           />
         )) ||
           (image && (
             <img
               src={image}
-              className="rounded-full w-24 h-24 absolute top-[166px] left-[230px] object-cover"
+              className="rounded-full w-24 h-24 absolute top-[166px] left-[230px] object-cover  border-[4px] border-blue"
             />
           ))}
 
