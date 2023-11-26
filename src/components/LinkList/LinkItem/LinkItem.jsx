@@ -1,5 +1,5 @@
 import { nanoid } from "nanoid";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 
@@ -19,13 +19,11 @@ import {
 const platformId = nanoid();
 const linkId = nanoid();
 
-const LinkItem = ({ handleDelete, item }) => {
+const LinkItem = ({ handleDelete, item, linkList }) => {
   const { id: itemId, url, platform } = item;
 
   const [selectedLink, setSelectedLink] = useState();
   const [linkUrl, setLinkUrl] = useState(url);
-
-  console.log("selectLinks", selectedLink);
 
   const previewLink = useSelector(selectPreviewLinks);
 
@@ -42,20 +40,24 @@ const LinkItem = ({ handleDelete, item }) => {
   };
 
   return (
-    <li className="p-[20px] rounded-[12px] bg-light-grey">
+    <li className="p-[17px] rounded-[12px] bg-light-grey mb-[15px] mr-[8px] ">
       <div className="flex items-center mb-[12px]">
         <svg className="block mr-[8px]" width={12} height={6}>
           <use href={`#${sprite}_line`}></use>
         </svg>
-        <p className="text-[16px] font-bold">Link #{1}</p>
+
         <Button
           type={"button"}
           title={"Remove"}
           onClick={() => {
+            if (linkList?.length > 0) {
+              handleDelete(itemId);
+              return;
+            }
             if (previewLink.length > 0) {
               dispatch(deletePreviewLink(itemId));
             }
-            handleDelete(itemId);
+
             dispatch(deleteLink(itemId));
           }}
           className={
