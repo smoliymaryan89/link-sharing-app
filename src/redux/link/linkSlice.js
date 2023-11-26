@@ -52,9 +52,16 @@ const linkSlice = createSlice({
           });
         });
       })
-      .addCase(deleteLink.fulfilled, (state, { payload }) => {
-        const index = state.links.findIndex((item) => item.id === payload.id);
-        state.links.splice(index, 1);
+      .addCase(deleteLink.fulfilled, (state, action) => {
+        const deletedLinkId = action.payload.deletedLinkId;
+        const index = state.links.findIndex(
+          (item) => item.id === deletedLinkId
+        );
+        if (index !== -1) {
+          state.links.splice(index, 1);
+        } else {
+          console.log(deletedLinkId);
+        }
       });
   },
 });
