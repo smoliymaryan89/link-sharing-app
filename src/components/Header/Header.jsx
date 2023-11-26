@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import sprite from "../../assets/icons/sprite.svg";
 
@@ -6,6 +6,8 @@ import Container from "../Container/Container";
 import Navigation from "./Navigation";
 
 const Header = () => {
+  const location = useLocation();
+
   return (
     <header className="py-[16px] bg-white rounded-[8px] md:my-[24px]">
       <Container className={"flex items-center justify-between"}>
@@ -19,6 +21,7 @@ const Header = () => {
         </Link>
         <Navigation />
         <Link
+          state={{ from: location }}
           to="/preview"
           className="block py-[11px] px-[16px] border-[1px]  border-blue rounded-[8px] hover:bg-light-purple header-link transition-all duration-350 ease-in-out"
         >
