@@ -17,7 +17,6 @@ const CustomSelect = ({
   className,
   handleChange,
   selectedLink,
-  setSelectedLink,
   options,
 }) => {
   const SingleValue = ({ children, ...props }) => (
@@ -30,6 +29,10 @@ const CustomSelect = ({
     </components.SingleValue>
   );
 
+  SingleValue.propTypes = {
+    children: PropTypes.node.isRequired,
+  };
+
   return (
     <Select
       name="platform"
@@ -38,11 +41,13 @@ const CustomSelect = ({
       options={options}
       onChange={handleChange}
       classNamePrefix="custom-select"
+      required={true}
       isSearchable={false}
       components={{
         Option,
         SingleValue,
       }}
+      placeholder="Select platform"
       className={className}
       styles={{
         menuList: (base) => ({
@@ -55,6 +60,18 @@ const CustomSelect = ({
       }}
     />
   );
+};
+
+Option.propTypes = {
+  data: PropTypes.object.isRequired,
+};
+
+CustomSelect.propTypes = {
+  platformId: PropTypes.string.isRequired,
+  className: PropTypes.string,
+  handleChange: PropTypes.func.isRequired,
+  selectedLink: PropTypes.object,
+  options: PropTypes.array.isRequired,
 };
 
 export default CustomSelect;
