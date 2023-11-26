@@ -26,8 +26,6 @@ export const getAllLinks = createAsyncThunk(
       setAuthHeader(token);
       const { data } = await instance.get(`api/link`);
 
-      console.log("data", data);
-
       return data;
     } catch (error) {
       return rejectWithValue(error);

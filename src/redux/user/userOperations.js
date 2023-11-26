@@ -45,9 +45,6 @@ export const updateUserAvatar = createAsyncThunk(
         },
       });
 
-      console.log(credentials);
-      console.log(data);
-
       return data;
     } catch (error) {
       return rejectWithValue(error);
