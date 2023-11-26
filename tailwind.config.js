@@ -19,10 +19,14 @@ export default {
         "dark-white": "rgba(217, 217, 217, 1)",
         overlay: "rgba(0, 0, 0, 0.8)",
       },
+      boxShadow: {
+        "card-shadow": "0px 0px 32px 0px rgba(0, 0, 0, 0.10)",
+      },
       fontFamily: {
         sans: ["Instrument Sans", ...defaultTheme.fontFamily.sans],
       },
       screens: {
+        xs: { max: "360px" },
         sm: { max: "767px" },
         md: "768px",
         lg: "1200px",
