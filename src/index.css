@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;600;700&display=swap");
+@import url("./components/CustomSelect/CustomSelect.module.css");
 
 @tailwind base;
 @tailwind components;
@@ -24,9 +25,6 @@
 .header-link:hover svg {
   @apply fill-white;
 }
-.header-link:hover p {
-  @apply text-white;
-}
 
 .nav-link:hover p {
   @apply text-blue;
@@ -50,4 +48,20 @@
 
 .circle {
   border-radius: 50%;
+}
+
+.link-list::-webkit-scrollbar {
+  @apply appearance-none  w-[7px] pr-[10px];
+}
+
+.link-list::-webkit-scrollbar-track {
+  @apply bg-[#e5e4e4] rounded-[10px];
+}
+
+.link-list::-webkit-scrollbar-thumb {
+  @apply bg-grey rounded-[10px];
+}
+
+.link-list::-webkit-scrollbar-thumb {
+  @apply bg-grey rounded-[10px];
 }
