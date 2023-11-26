@@ -1,3 +1,5 @@
+/* TODO add z-index on select */
+
 .custom-select__indicator-separator {
   @apply hidden;
 }
@@ -11,6 +13,7 @@
   padding-left: 16px;
   padding-right: 16px;
 }
+
 .custom-select__control:focus-within {
   border-color: #633cff !important;
   box-shadow: 0px 0px 32px 0px rgba(99, 60, 255, 0.25) !important;
@@ -52,7 +55,7 @@
   box-shadow: 0px 0px 32px 0px rgba(0, 0, 0, 0.1) !important;
   border-color: #d9d9d9 !important;
   background-color: #fff !important;
-  /* max-height: 146px !important; */
+  z-index: 10 !important;
   margin-bottom: 0px !important;
 }
 
@@ -71,9 +74,12 @@
   align-items: center;
   gap: 12px;
   padding: 0 !important;
-  border-bottom: 1px solid #d9d9d9;
   padding-top: 12px !important;
   padding-bottom: 12px !important;
+}
+
+.custom-select__option:not(:last-child) {
+  border-bottom: 1px solid #d9d9d9;
 }
 
 .custom-select__option--is-focused {
