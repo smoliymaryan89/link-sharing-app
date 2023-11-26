@@ -22,7 +22,7 @@ const CustomSelect = ({
   const SingleValue = ({ children, ...props }) => (
     <components.SingleValue {...props}>
       <svg className="fill-grey " width="16" height="16">
-        <use href={selectedLink.icon}></use>
+        <use href={selectedLink?.icon}></use>
       </svg>
 
       {children}
