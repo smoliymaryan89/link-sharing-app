@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addLink, deleteLink, getAllLinks } from "./linkOperations";
+import { addLink, deleteLink, getAllLinks, updateLink } from "./linkOperations";
 
 const initialState = {
   links: [],
@@ -52,8 +52,19 @@ const linkSlice = createSlice({
           });
         });
       })
+      .addCase(updateLink.fulfilled, (state, { payload }) => {
+        payload.links.forEach((updatedLink) => {
+          const index = state.links.findIndex(
+            (link) => link.id === updatedLink.id
+          );
+          if (index !== -1) {
+            state.links[index] = updatedLink;
+          }
+        });
+      })
       .addCase(deleteLink.fulfilled, (state, action) => {
         const deletedLinkId = action.payload.deletedLinkId;
+
         const index = state.links.findIndex(
           (item) => item.id === deletedLinkId
         );
