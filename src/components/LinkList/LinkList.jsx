@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 import { Reorder } from "framer-motion";
 
 import LinkItem from "./LinkItem/LinkItem";
@@ -16,6 +18,13 @@ const LinkList = ({ linkList, handleDelete, reorderList, setReorderList }) => {
       ))}
     </Reorder.Group>
   );
+};
+
+LinkList.propTypes = {
+  linkList: PropTypes.array.isRequired,
+  handleDelete: PropTypes.func.isRequired,
+  reorderList: PropTypes.array.isRequired,
+  setReorderList: PropTypes.func.isRequired,
 };
 
 export default LinkList;
