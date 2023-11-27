@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { nanoid } from "nanoid";
 import { useState } from "react";
 
+import { Reorder } from "framer-motion";
+
 import { useDispatch, useSelector } from "react-redux";
 import { deletePreviewLink, getData } from "../../../redux/link/linkSlice";
 import { deleteLink } from "../../../redux/link/linkOperations";
@@ -10,16 +12,16 @@ import { selectPreviewLinks } from "../../../redux/link/linkSelectors";
 
 import sprite from "../../../assets/icons/sprite.svg";
 import options from "../../../utils/selectData";
+import getPlaceholder from "../../../utils/getPlaceholder";
 
 import Button from "../../Button/Button";
 import CustomSelect from "../../CustomSelect/CustomSelect";
 import Input from "../../Input/Input";
-import getPlaceholder from "../../../utils/getPlaceholder";
 
 const platformId = nanoid();
 const linkId = nanoid();
 
-const LinkItem = ({ handleDelete, item, linkList }) => {
+const LinkItem = ({ handleDelete, item, linkList, index }) => {
   const { id: itemId, url, platform } = item;
 
   const [selectedLink, setSelectedLink] = useState();
@@ -46,22 +48,35 @@ const LinkItem = ({ handleDelete, item, linkList }) => {
   };
 
   return (
-    <li className="p-[17px] rounded-[12px] bg-light-grey mb-[15px] mr-[8px] ">
+    <Reorder.Item
+      value={item}
+      initial={{ opacity: 0, scale: 0.5 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{
+        duration: 0.8,
+        ease: [0, 0.71, 0.2, 1.01],
+      }}
+      id={itemId}
+      className="p-[17px] rounded-[12px] bg-light-grey mb-[15px] mr-[8px] "
+    >
       <div className="flex items-center mb-[12px]">
         <svg className="block mr-[8px]" width={12} height={6}>
           <use href={`#${sprite}_line`}></use>
         </svg>
 
+        <p className="font-bold">Link #{index + 1}</p>
+
         <Button
           type={"button"}
           title={"Remove"}
           onClick={() => {
+            if (previewLink.length > 0) {
+              dispatch(deletePreviewLink(itemId));
+            }
+
             if (linkList?.length > 0) {
               handleDelete(itemId);
               return;
-            }
-            if (previewLink.length > 0) {
-              dispatch(deletePreviewLink(itemId));
             }
 
             dispatch(deleteLink(itemId));
@@ -104,12 +119,13 @@ const LinkItem = ({ handleDelete, item, linkList }) => {
           placeholder={getPlaceholder(selectedLink)}
         />
       </div>
-    </li>
+    </Reorder.Item>
   );
 };
 
 LinkItem.propTypes = {
   handleDelete: PropTypes.func,
+  index: PropTypes.number.isRequired,
   item: PropTypes.shape({
     id: PropTypes.string,
     url: PropTypes.string,

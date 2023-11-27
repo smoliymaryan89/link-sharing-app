@@ -1,9 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { addLink, deleteLink, getAllLinks, updateLink } from "./linkOperations";
+import {
+  handlePending,
+  handleRejected,
+  handleFulfilled,
+} from "../../utils/handlers";
 
 const initialState = {
   links: [],
   previewLinks: [],
+  isLoading: false,
+  error: null,
 };
 
 const linkSlice = createSlice({
@@ -31,6 +38,9 @@ const linkSlice = createSlice({
         (item) => item.id !== action.payload
       );
     },
+    reorder: (state, action) => {
+      state.links = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -42,6 +52,8 @@ const linkSlice = createSlice({
         });
 
         state.previewLinks = [];
+
+        handleFulfilled(state);
       })
       .addCase(getAllLinks.fulfilled, (state, { payload }) => {
         payload.forEach((item) => {
@@ -51,6 +63,8 @@ const linkSlice = createSlice({
             }
           });
         });
+
+        handleFulfilled(state);
       })
       .addCase(updateLink.fulfilled, (state, { payload }) => {
         payload.links.forEach((updatedLink) => {
@@ -61,6 +75,8 @@ const linkSlice = createSlice({
             state.links[index] = updatedLink;
           }
         });
+
+        handleFulfilled(state);
       })
       .addCase(deleteLink.fulfilled, (state, action) => {
         const deletedLinkId = action.payload.deletedLinkId;
@@ -71,11 +87,21 @@ const linkSlice = createSlice({
         if (index !== -1) {
           state.links.splice(index, 1);
         } else {
-          console.log(deletedLinkId);
+          state.previewLinks = [];
         }
-      });
+
+        handleFulfilled(state);
+      })
+      .addCase(addLink.pending, handlePending)
+      .addCase(getAllLinks.pending, handlePending)
+      .addCase(updateLink.pending, handlePending)
+      .addCase(deleteLink.pending, handlePending)
+      .addCase(addLink.rejected, handleRejected)
+      .addCase(getAllLinks.rejected, handleRejected)
+      .addCase(updateLink.rejected, handleRejected)
+      .addCase(deleteLink.rejected, handleRejected);
   },
 });
 
-export const { getData, deletePreviewLink } = linkSlice.actions;
+export const { getData, deletePreviewLink, reorder } = linkSlice.actions;
 export const linkReducer = linkSlice.reducer;

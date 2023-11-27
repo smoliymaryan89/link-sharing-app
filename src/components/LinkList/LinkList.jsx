@@ -1,17 +1,20 @@
-import { useSelector } from "react-redux";
-import { selectLinks } from "../../redux/link/linkSelectors";
+import { Reorder } from "framer-motion";
 
 import LinkItem from "./LinkItem/LinkItem";
 
-const LinkList = () => {
-  const links = useSelector(selectLinks);
-
+const LinkList = ({ linkList, handleDelete, reorderList, setReorderList }) => {
   return (
-    <ul>
-      {links.map((item) => (
-        <LinkItem key={item.id} item={item} />
+    <Reorder.Group axis="y" onReorder={setReorderList} values={reorderList}>
+      {reorderList.map((item, index) => (
+        <LinkItem
+          key={item.id}
+          item={item}
+          linkList={linkList}
+          handleDelete={handleDelete}
+          index={index}
+        />
       ))}
-    </ul>
+    </Reorder.Group>
   );
 };
 

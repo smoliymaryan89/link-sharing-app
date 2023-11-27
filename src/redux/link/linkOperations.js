@@ -53,6 +53,22 @@ export const updateLink = createAsyncThunk(
   }
 );
 
+export const reorderLinkData = createAsyncThunk(
+  "link/reorderLinks",
+  async (links, { rejectWithValue }) => {
+    const token = localStorage.getItem("token");
+
+    try {
+      setAuthHeader(token);
+      const { data } = await instance.patch(`api/link/reorder`, links);
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
 export const deleteLink = createAsyncThunk(
   "link/deleteLink",
   async (id, { rejectWithValue }) => {

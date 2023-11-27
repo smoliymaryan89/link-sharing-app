@@ -1,39 +1,62 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { nanoid } from "nanoid";
 
 import { useDispatch, useSelector } from "react-redux";
 import { selectLinks, selectPreviewLinks } from "../redux/link/linkSelectors";
-import { addLink, updateLink } from "../redux/link/linkOperations";
+import {
+  addLink,
+  reorderLinkData,
+  updateLink,
+} from "../redux/link/linkOperations";
+import { reorder } from "../redux/link/linkSlice";
 
 import sprite from "../assets/icons/sprite.svg";
+import findMatchingLink from "../utils/findMatchingLink";
+import checkLinksIndex from "../utils/checkLinksIndex";
 
 import Container from "../components/Container/Container";
 import InfoPanel from "../components/InfoPanel/InfoPanel";
 import Button from "../components/Button/Button";
 import LinkList from "../components/LinkList/LinkList";
-import LinkItem from "../components/LinkList/LinkItem/LinkItem";
-import findMatchingLink from "../utils/findMatchingLink";
 
 const LinksPage = () => {
-  const [linkList, setLinkList] = useState([]);
-
   const dispatch = useDispatch();
   const previewLinks = useSelector(selectPreviewLinks);
   const links = useSelector(selectLinks);
+
+  const [linkList, setLinkList] = useState([]);
+  const [reorderList, setReorderList] = useState([]);
+
+  const itemsArray = useMemo(() => [...linkList, ...links], [linkList, links]);
+
+  useEffect(() => {
+    setReorderList(itemsArray);
+  }, [itemsArray]);
+
+  const isIndexChange = checkLinksIndex(reorderList, links);
+
+  useEffect(() => {
+    if (!isIndexChange) {
+      return;
+    }
+    dispatch(reorder(reorderList));
+  }, [dispatch, isIndexChange, links, reorderList]);
 
   const handleAddLink = () => {
     setLinkList([...linkList, { id: nanoid() }]);
   };
 
-  const matchingLink = findMatchingLink(previewLinks, links);
-
   const handleSave = () => {
-    if (previewLinks.length === 0) {
-      return;
-    }
+    const matchingLink = findMatchingLink(previewLinks, links);
 
     if (matchingLink) {
       dispatch(updateLink({ id: matchingLink.id, links: previewLinks }));
+      return;
+    }
+
+    dispatch(reorderLinkData(links));
+
+    if (previewLinks.length === 0) {
       return;
     }
 
@@ -61,8 +84,7 @@ const LinksPage = () => {
             type={"button"}
             onClick={handleAddLink}
           />
-
-          {linkList.length === 0 && links.length === 0 && (
+          {itemsArray.length === 0 && (
             <div className="py-[47px] px-[20px] bg-light-grey  rounded-[12px] md:py-[83px] md:px-[57px] ">
               <svg className="block w-[125px] h-[80px] mx-auto mb-[24px] md:w-[250px] md:h-[160px] md:mb-[40px]">
                 <use href={`#${sprite}_book`}></use>
@@ -75,22 +97,15 @@ const LinksPage = () => {
             </div>
           )}
 
-          {(linkList.length > 0 || links.length > 0) && (
+          {itemsArray.length > 0 && (
             <div className="link-list overflow-y-auto h-[510px]">
-              {linkList.length > 0 && (
-                <ul>
-                  {linkList.map((item) => (
-                    <LinkItem
-                      key={item.id}
-                      linkList={linkList}
-                      handleDelete={handleDelete}
-                      item={item}
-                    />
-                  ))}
-                </ul>
-              )}
-
-              <LinkList />
+              <LinkList
+                itemsArray={itemsArray}
+                linkList={linkList}
+                handleDelete={handleDelete}
+                reorderList={reorderList}
+                setReorderList={setReorderList}
+              />
             </div>
           )}
 
