@@ -8,10 +8,10 @@ export const handlePending = (state) => {
   state.error = null;
 };
 
-export const handleRejected = (state, { payload }) => {
+export const handleRejected = (state, action) => {
   state.isLoading = false;
   state.error = {
-    message: payload.response?.data?.message,
-    status: payload.response?.status,
+    message: action?.payload?.response?.data?.message,
+    status: action?.payload?.response?.status,
   };
 };
