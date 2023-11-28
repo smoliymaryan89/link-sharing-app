@@ -1,38 +1,53 @@
 import { useFormik } from "formik";
 import { nanoid } from "nanoid";
 
-import { loginValidationSchema } from "../../utils/validationSchemas";
-
 import { useDispatch } from "react-redux";
+import { login } from "../../redux/auth/authOperations";
+
+import { loginValidationSchema } from "../../utils/validationSchemas";
+import useAuth from "../../hooks/useAuth";
 
 import Input from "../Input/Input";
 import Button from "../Button/Button";
-import { login } from "../../redux/auth/authOperations";
 
 const email = nanoid();
 const password = nanoid();
 
 const LoginForm = () => {
   const dispatch = useDispatch();
+  const { error } = useAuth();
 
-  const formik = useFormik({
+  const {
+    errors,
+    values,
+    touched,
+    handleBlur,
+    handleChange,
+    handleSubmit,
+    resetForm,
+  } = useFormik({
     initialValues: {
       email: "",
       password: "",
     },
     validationSchema: loginValidationSchema,
-    onSubmit: ({ email, password }) => {
+    onSubmit: async ({ email, password }) => {
       if (!email.trim() || !password.trim()) {
         return;
       }
-      dispatch(login({ email, password }));
-      formik.resetForm();
+
+      try {
+        await dispatch(login({ email, password })).unwrap();
+        resetForm();
+      } catch (error) {
+        console.log(error);
+      }
     },
   });
 
   return (
     <form
-      onSubmit={formik.handleSubmit}
+      onSubmit={handleSubmit}
       className="flex flex-col mb-[24px]"
       noValidate
     >
@@ -44,19 +59,24 @@ const LoginForm = () => {
           id={email}
           name="email"
           type="email"
-          onChange={formik.handleChange}
-          value={formik.values.email}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          value={values.email}
           placeholder={"e.g. alex@email.com"}
           icon={"email"}
           iconStyle={"fill-grey w-[16px] h-[16px]"}
-          className={` ${
-            formik.errors.email ? "pr-[160px]" : "pr-[44px]"
+          className={`${
+            errors.email && touched.email
+              ? "border-red focus:border-red"
+              : "focus:border-blue"
           } focus:border-blue box-shadow-input`}
         />
 
-        {formik.touched.email && formik.errors.email ? (
-          <div className="absolute top-[15px] right-[16px] ">
-            <p className="text-red text-[12px]">{formik.errors.email}</p>
+        {(touched.email && errors.email) || error?.status === 401 ? (
+          <div className="absolute bottom-[54px] right-[16px]  ">
+            <p className="text-red text-[12px]">
+              {error?.status === 401 ? error.message : errors.email}
+            </p>
           </div>
         ) : null}
       </div>
@@ -69,18 +89,21 @@ const LoginForm = () => {
           id={password}
           name="password"
           type="password"
-          onChange={formik.handleChange}
-          value={formik.values.password}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          value={values.password}
           placeholder={"At least .8 characters"}
           icon={"password"}
           iconStyle={"fill-grey w-[16px] h-[16px]"}
-          className={` ${
-            formik.errors.password ? "pr-[160px]" : "pr-[44px]"
+          className={`${
+            errors.password && touched.password
+              ? "border-red focus:border-red"
+              : "focus:border-blue"
           } focus:border-blue box-shadow-input`}
         />
-        {formik.touched.password && formik.errors.password ? (
-          <div className="absolute top-[15px] right-[16px] ">
-            <p className="text-red text-[12px]"> {formik.errors.password}</p>
+        {touched.password && errors.password ? (
+          <div className="absolute bottom-[54px] right-[16px]  ">
+            <p className="text-red text-[12px]"> {errors.password}</p>
           </div>
         ) : null}
       </div>
