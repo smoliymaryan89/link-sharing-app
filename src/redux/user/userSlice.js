@@ -5,7 +5,6 @@ import {
   updateUserAvatar,
   updateUserProfile,
 } from "./userOperations";
-
 import {
   handleFulfilled,
   handlePending,
@@ -43,6 +42,8 @@ const userSlice = createSlice({
           image: avatarURL,
           id: _id,
         };
+
+        handleFulfilled(state);
       })
       .addCase(getProfile.fulfilled, (state, { payload }) => {
         if (payload) {
@@ -55,22 +56,25 @@ const userSlice = createSlice({
             emailPreview,
           };
         }
+
+        handleFulfilled(state);
       })
       .addCase(updateUserAvatar.fulfilled, (state, { payload }) => {
         state.user.image = payload.avatar;
+
+        handleFulfilled(state);
       })
       .addCase(updateUserProfile.fulfilled, (state, { payload }) => {
         state.user = { ...state.user, ...payload.user };
+
+        handleFulfilled(state);
       })
-      .addMatcher(
-        (action) => action.type.endsWith("/fulfilled"),
-        handleFulfilled
-      )
-      .addMatcher((action) => action.type.endsWith("/pending"), handlePending)
-      .addMatcher(
-        (action) => action.type.endsWith("/rejected"),
-        handleRejected
-      );
+      .addCase(getProfile.pending, handlePending)
+      .addCase(updateUserAvatar.pending, handlePending)
+      .addCase(updateUserProfile.pending, handlePending)
+      .addCase(getProfile.rejected, handleRejected)
+      .addCase(updateUserAvatar.rejected, handleRejected)
+      .addCase(updateUserProfile.rejected, handleRejected);
   },
 });
 
