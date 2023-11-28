@@ -1,98 +1,65 @@
-/* TODO add z-index on select */
-
 .custom-select__indicator-separator {
   @apply hidden;
 }
 
 .custom-select__control {
-  border-radius: 8px !important;
-  border-color: #d9d9d9 !important;
-  outline: none !important;
-  padding-top: 12px;
-  padding-bottom: 12px;
-  padding-left: 16px;
-  padding-right: 16px;
+  @apply !rounded-[8px] !border-input !outline-none py-[12px] px-[16px];
 }
 
 .custom-select__control:focus-within {
-  border-color: #633cff !important;
-  box-shadow: 0px 0px 32px 0px rgba(99, 60, 255, 0.25) !important;
+  @apply !border-blue !shadow-active-shadow;
 }
 
 .custom-select__value-container {
-  padding: 0 !important;
+  @apply !p-0;
 }
 
 .custom-select__single-value {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin: 0 !important;
+  @apply flex items-center gap-[12px] !m-0;
 }
 
 .custom-select__indicator {
-  padding: 0 !important;
-  padding-left: 12px !important;
-
-  transform: rotate(0deg);
-  transition: 0.3s;
+  @apply !p-0 !pl-[12px] transform rotate-0 transition-all duration-350;
 }
 
 .custom-select__indicator svg {
-  fill: #633cff;
+  @apply fill-blue;
 }
 
 .custom-select__control--menu-is-open .custom-select__indicator svg {
-  fill: #633cff;
-  transform: rotate(180deg);
-  transition: 0.3s;
+  @apply fill-blue transform rotate-180 transition-all duration-350;
 }
 
 .custom-select__menu {
-  padding: 0px 16px !important;
-  overflow: hidden !important;
-  border-radius: 8px !important;
-  box-shadow: 0px 0px 32px 0px rgba(0, 0, 0, 0.1) !important;
-  border-color: #d9d9d9 !important;
-  background-color: #fff !important;
-  z-index: 10 !important;
-  margin-bottom: 0px !important;
+  @apply !py-0 !px-[16px] !overflow-hidden !rounded-[8px] !shadow-card-shadow !border-input !bg-white !z-10 !mb-0;
 }
 
 @media screen and (max-width: 767.98px) {
   .custom-select__menu {
-    max-height: 146px !important;
+    @apply !max-h-[146px];
   }
 }
 
 .custom-select__MenuList2 {
-  padding: 0 !important;
+  @apply !p-0;
 }
 
 .custom-select__option {
-  display: flex !important;
-  align-items: center;
-  gap: 12px;
-  padding: 0 !important;
-  padding-top: 12px !important;
-  padding-bottom: 12px !important;
-}
-
-.custom-select__option:not(:last-child) {
-  border-bottom: 1px solid #d9d9d9;
+  @apply !flex items-center gap-[12px] !p-0 !py-[12px] border-b border-b-input last:border-b-0;
 }
 
 .custom-select__option--is-focused {
-  background-color: transparent !important;
+  @apply !bg-transparent;
 }
+
 .custom-select__option--is-selected {
-  background-color: transparent !important;
+  @apply !bg-transparent;
 }
 
 .custom-select__option--is-selected svg {
-  fill: #633cff;
+  @apply fill-blue;
 }
 
 .custom-select__option--is-selected span {
-  color: #633cff;
+  @apply text-blue;
 }
