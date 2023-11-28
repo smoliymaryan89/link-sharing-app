@@ -12,6 +12,7 @@ const Input = ({
   placeholder,
   icon,
   iconStyle,
+  onBlur,
 }) => {
   return (
     <div className={`relative  flex items-center`}>
@@ -24,6 +25,7 @@ const Input = ({
         type={type}
         onChange={onChange}
         value={value}
+        onBlur={onBlur}
         placeholder={placeholder}
         className={`rounded-[8px] w-full border-input border-[1px] outline-none text-[16px] leading-[1.5] text-dark-grey py-[12px] pl-[44px] pr-[44px] ${className}`}
       />
@@ -36,6 +38,7 @@ Input.propTypes = {
   name: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
+  onBlur: PropTypes.func,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   className: PropTypes.string,
   placeholder: PropTypes.string,
