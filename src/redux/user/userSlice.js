@@ -5,11 +5,7 @@ import {
   updateUserAvatar,
   updateUserProfile,
 } from "./userOperations";
-import {
-  handleFulfilled,
-  handlePending,
-  handleRejected,
-} from "../../utils/handlers";
+import { handleFulfilled, handlePending, handleRejected } from "../handlers";
 
 const initialState = {
   user: {

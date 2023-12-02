@@ -1,10 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { addLink, deleteLink, getAllLinks, updateLink } from "./linkOperations";
-import {
-  handlePending,
-  handleRejected,
-  handleFulfilled,
-} from "../../utils/handlers";
+import { handlePending, handleRejected, handleFulfilled } from "../handlers";
 
 const initialState = {
   links: [],

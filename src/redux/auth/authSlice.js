@@ -1,10 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { logOut, login, refreshUser, register } from "./authOperations";
-import {
-  handleFulfilled,
-  handlePending,
-  handleRejected,
-} from "../../utils/handlers";
+import { handleFulfilled, handlePending, handleRejected } from "../handlers";
 
 const initialState = {
   user: {
