@@ -98,6 +98,14 @@
       <path fill="#737373" style="fill:var(--color1, #737373)" d="M0 0h64v5.333H0V0zM0 26.667h64V32H0v-5.333z"/>
     </symbol>
 
+    <symbol id="check" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm3.707-9.293a1 1 0 0 0-1.414-1.414L9 10.586 7.707 9.293a1 1 0 0 0-1.414 1.414l2 2a1 1 0 0 0 1.414 0l4-4z" clip-rule="evenodd" stroke="none"/>
+    </symbol>
+
+    <symbol id="warning" viewBox="0 0 24 24">
+       <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10Zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm-1-5h2v2h-2v-2Zm0-8h2v6h-2V7Z" stroke="none"/>
+    </symbol>
+
 
 
 
