@@ -1,54 +1,46 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { nanoid } from "nanoid";
 
 import { useDispatch, useSelector } from "react-redux";
-import { selectLinks, selectPreviewLinks } from "../redux/link/linkSelectors";
+import {
+  selectIsLoading,
+  selectLinks,
+  selectPreviewLinks,
+} from "../redux/link/linkSelectors";
 import {
   addLink,
   reorderLinkData,
   updateLink,
 } from "../redux/link/linkOperations";
-import { reorder } from "../redux/link/linkSlice";
 
 import sprite from "../assets/icons/sprite.svg";
 import findMatchingLink from "../utils/findMatchingLink";
-import checkLinksIndex from "../utils/checkLinksIndex";
 
 import Container from "../components/Container/Container";
 import InfoPanel from "../components/InfoPanel/InfoPanel";
 import Button from "../components/Button/Button";
 import LinkList from "../components/LinkList/LinkList";
+import Loader from "../components/Loader/Loader";
+import BtnLoader from "../components/Loader/BtnLoader";
 
 const LinksPage = () => {
+  const [linkList, setLinkList] = useState([]);
+
   const dispatch = useDispatch();
+
   const previewLinks = useSelector(selectPreviewLinks);
   const links = useSelector(selectLinks);
-
-  const [linkList, setLinkList] = useState([]);
-  const [reorderList, setReorderList] = useState([]);
+  const isLoading = useSelector(selectIsLoading);
 
   const itemsArray = useMemo(() => [...linkList, ...links], [linkList, links]);
 
-  useEffect(() => {
-    setReorderList(itemsArray);
-  }, [itemsArray]);
-
-  const isIndexChange = checkLinksIndex(reorderList, links);
-
-  useEffect(() => {
-    if (!isIndexChange) {
-      return;
-    }
-    dispatch(reorder(reorderList));
-  }, [dispatch, isIndexChange, links, reorderList]);
+  const matchingLink = findMatchingLink(previewLinks, links);
 
   const handleAddLink = () => {
     setLinkList([...linkList, { id: nanoid() }]);
   };
 
   const handleSave = () => {
-    const matchingLink = findMatchingLink(previewLinks, links);
-
     if (matchingLink) {
       dispatch(updateLink({ id: matchingLink.id, links: previewLinks }));
       return;
@@ -84,7 +76,7 @@ const LinksPage = () => {
             type={"button"}
             onClick={handleAddLink}
           />
-          {itemsArray.length === 0 && (
+          {!isLoading && itemsArray.length === 0 && (
             <div className="py-[47px] px-[20px] bg-light-grey  rounded-[12px] md:py-[83px] md:px-[57px] ">
               <svg className="block w-[125px] h-[80px] mx-auto mb-[24px] md:w-[250px] md:h-[160px] md:mb-[40px]">
                 <use href={`#${sprite}_book`}></use>
@@ -96,25 +88,29 @@ const LinksPage = () => {
               />
             </div>
           )}
-
-          {itemsArray.length > 0 && (
-            <div className="link-list overflow-y-auto h-[510px]">
-              <LinkList
-                itemsArray={itemsArray}
-                linkList={linkList}
-                handleDelete={handleDelete}
-                reorderList={reorderList}
-                setReorderList={setReorderList}
-              />
-            </div>
+          {isLoading ? (
+            <Loader
+              className={"bg-light-grey w-full h-[510px] rounded-[12px]"}
+            />
+          ) : (
+            itemsArray.length > 0 && (
+              <div className="link-list overflow-y-auto h-[510px]">
+                <LinkList
+                  itemsArray={itemsArray}
+                  linkList={linkList}
+                  handleDelete={handleDelete}
+                />
+              </div>
+            )
           )}
 
           <Button
             type={"button"}
-            title={"Save"}
+            title={isLoading ? <BtnLoader /> : "Save"}
             onClick={handleSave}
-            className={`block  text-white hover:bg-blue 
-             mt-[20px] w-full hover:opacity-50 hover:text-white transition-all duration-350 md:py-[11px] md:px-[27px] md:w-[91px] md:ml-auto sm:mt-[61px] disabled:opacity-[0.25] `}
+            disabled={isLoading}
+            className={`block  text-white  
+             mt-[20px] w-full hover:bg-active hover:shadow-active-shadow hover:text-white transition-all duration-350 md:py-[11px] md:px-[27px] md:w-[91px] md:ml-auto sm:mt-[61px] disabled:bg-blue disabled:opacity-[0.25] `}
           />
         </div>
       </Container>
