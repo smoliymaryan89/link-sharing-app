@@ -1,5 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addLink, deleteLink, getAllLinks, updateLink } from "./linkOperations";
+import {
+  addLink,
+  deleteLink,
+  getAllLinks,
+  reorderLinkData,
+  updateLink,
+} from "./linkOperations";
 import { handlePending, handleRejected, handleFulfilled } from "../handlers";
 
 const initialState = {
@@ -74,6 +80,10 @@ const linkSlice = createSlice({
 
         handleFulfilled(state);
       })
+      .addCase(reorderLinkData.fulfilled, (state, { payload }) => {
+        state.links = payload.links;
+        handleFulfilled(state);
+      })
       .addCase(deleteLink.fulfilled, (state, action) => {
         const deletedLinkId = action.payload.deletedLinkId;
 
@@ -91,10 +101,12 @@ const linkSlice = createSlice({
       .addCase(addLink.pending, handlePending)
       .addCase(getAllLinks.pending, handlePending)
       .addCase(updateLink.pending, handlePending)
+      .addCase(reorderLinkData.pending, handlePending)
       .addCase(deleteLink.pending, handlePending)
       .addCase(addLink.rejected, handleRejected)
       .addCase(getAllLinks.rejected, handleRejected)
       .addCase(updateLink.rejected, handleRejected)
+      .addCase(reorderLinkData.rejected, handleRejected)
       .addCase(deleteLink.rejected, handleRejected);
   },
 });
