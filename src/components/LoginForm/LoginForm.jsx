@@ -9,13 +9,14 @@ import useAuth from "../../hooks/useAuth";
 
 import Input from "../Input/Input";
 import Button from "../Button/Button";
+import BtnLoader from "../Loader/BtnLoader";
 
 const email = nanoid();
 const password = nanoid();
 
 const LoginForm = () => {
   const dispatch = useDispatch();
-  const { error } = useAuth();
+  const { error, isLoading } = useAuth();
 
   const {
     errors,
@@ -39,8 +40,8 @@ const LoginForm = () => {
       try {
         await dispatch(login({ email, password })).unwrap();
         resetForm();
-      } catch (error) {
-        console.log(error);
+      } catch (e) {
+        console.log(e);
       }
     },
   });
@@ -65,11 +66,11 @@ const LoginForm = () => {
           placeholder={"e.g. alex@email.com"}
           icon={"email"}
           iconStyle={"fill-grey w-[16px] h-[16px]"}
-          className={`${
+          className={
             errors.email && touched.email
               ? "border-red focus:border-red"
-              : "focus:border-blue"
-          } focus:border-blue box-shadow-input`}
+              : "focus:border-blue box-shadow-input"
+          }
         />
 
         {(touched.email && errors.email) || error?.status === 401 ? (
@@ -95,11 +96,11 @@ const LoginForm = () => {
           placeholder={"At least .8 characters"}
           icon={"password"}
           iconStyle={"fill-grey w-[16px] h-[16px]"}
-          className={`${
+          className={
             errors.password && touched.password
               ? "border-red focus:border-red"
-              : "focus:border-blue"
-          } focus:border-blue box-shadow-input`}
+              : "focus:border-blue box-shadow-input"
+          }
         />
         {touched.password && errors.password ? (
           <div className="absolute bottom-[54px] right-[16px]  ">
@@ -109,10 +110,11 @@ const LoginForm = () => {
       </div>
 
       <Button
-        title={"Login"}
+        title={isLoading ? <BtnLoader /> : "Login"}
+        disabled={isLoading}
         type="submit"
         className={
-          "text-white hover:bg-blue hover:opacity-50 hover:text-white transition-all duration-350"
+          "text-white hover:bg-active hover:shadow-active-shadow hover:text-white transition-all duration-350 disabled:bg-blue disabled:opacity-[0.25]"
         }
       />
     </form>
