@@ -6,8 +6,6 @@ export const addLink = createAsyncThunk(
   async (linkData, { rejectWithValue }) => {
     const token = localStorage.getItem("token");
 
-    console.log("linkData", linkData);
-
     try {
       setAuthHeader(token);
       const { data } = await instance.post("api/link/", { links: linkData });
