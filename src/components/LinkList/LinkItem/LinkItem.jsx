@@ -8,7 +8,10 @@ import { Reorder } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { deletePreviewLink, getData } from "../../../redux/link/linkSlice";
 import { deleteLink } from "../../../redux/link/linkOperations";
-import { selectPreviewLinks } from "../../../redux/link/linkSelectors";
+import {
+  selectLinks,
+  selectPreviewLinks,
+} from "../../../redux/link/linkSelectors";
 
 import sprite from "../../../assets/icons/sprite.svg";
 import options from "../../../utils/selectData";
@@ -25,11 +28,13 @@ const LinkItem = ({ handleDelete, item, linkList, index }) => {
   const { id: itemId, url, platform } = item;
 
   const [selectedLink, setSelectedLink] = useState();
-  const [linkUrl, setLinkUrl] = useState(url ?? "");
 
-  const previewLink = useSelector(selectPreviewLinks);
+  const [linkUrl, setLinkUrl] = useState(url || "");
 
   const dispatch = useDispatch();
+
+  const links = useSelector(selectLinks);
+  const previewLink = useSelector(selectPreviewLinks);
 
   const handleChange = (value) => {
     setSelectedLink(value);
@@ -38,13 +43,11 @@ const LinkItem = ({ handleDelete, item, linkList, index }) => {
   };
 
   const handleInput = (e) => {
-    setLinkUrl(e.target.value);
+    const value = e.target.value;
 
-    if (!linkUrl.trim()) {
-      return;
-    }
+    setLinkUrl(value.trim());
 
-    dispatch(getData({ id: itemId, url: e.target.value }));
+    dispatch(getData({ id: itemId, url: value.trim() }));
   };
 
   return (
@@ -76,10 +79,11 @@ const LinkItem = ({ handleDelete, item, linkList, index }) => {
 
             if (linkList?.length > 0) {
               handleDelete(itemId);
-              return;
             }
 
-            dispatch(deleteLink(itemId));
+            if (links.length > 0 || linkList.length === 0) {
+              dispatch(deleteLink(itemId));
+            }
           }}
           className={
             "py-[0px] px-[0px]  pl-[0px] pr-[0px] bg-transparent font-normal ml-auto w-[91px]"
