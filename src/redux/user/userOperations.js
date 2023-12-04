@@ -63,8 +63,10 @@ export const updateUserProfile = createAsyncThunk(
       emailPreview,
     };
 
-    if (profileData.emailPreview.trim() === "") {
-      delete profileData.emailPreview;
+    for (const key in profileData) {
+      if (profileData[key].trim() === "") {
+        delete profileData[key];
+      }
     }
 
     try {
