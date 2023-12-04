@@ -1,14 +1,19 @@
+import PropTypes from "prop-types";
+
 import { useSelector } from "react-redux";
 import { selectLinks } from "../../redux/link/linkSelectors";
 import { selectUser } from "../../redux/user/userSelectors";
+
 import PreviewItem from "../LinkList/PreviewItem/PreviewItem";
 
-const PreviewContent = () => {
+const PreviewContent = ({ className }) => {
   const links = useSelector(selectLinks);
   const { image, lastName, firstName, emailPreview } = useSelector(selectUser);
 
   return (
-    <div className=" max-w-[350px] mx-auto md:py-[48px] md:px-[56px] md:rounded-[24px] md:bg-white md:shadow-card-shadow ">
+    <div
+      className={`max-w-[350px] mx-auto md:py-[48px] md:px-[56px] md:rounded-[24px] md:bg-white md:shadow-card-shadow ${className}`}
+    >
       <div className="mb-[56px]">
         {image ? (
           <img
@@ -36,6 +41,10 @@ const PreviewContent = () => {
       )}
     </div>
   );
+};
+
+PreviewContent.propTypes = {
+  className: PropTypes.string,
 };
 
 export default PreviewContent;
