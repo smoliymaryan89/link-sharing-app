@@ -21,21 +21,25 @@ const PhonePreview = () => {
 
   const linksArray = [...links, ...nonMatchingPreviewLinks];
 
-  //TODO add border color when its focus
+  let fullName = `${firstName} ${lastName}`;
+
+  if (fullName.length > 15) {
+    fullName = fullName.slice(0, 15);
+  }
 
   return (
     <section className="section">
       <div className=" w-[560px] h-[835.6px] bg-white rounded-[12px] py-[102px] px-[127px] relative ">
         <div className="absolute top-[287px] left-[200px] flex flex-col justify-center items-center">
           <div
-            className={`min-w-[160px] h-[16px] rounded-[104px] bg-[#eee] mb-[13px] ${
+            className={`w-[160px] h-[16px] rounded-[104px] bg-[#eee] mb-[13px] ${
               firstName && "bg-transparent"
             }`}
           >
             {firstName && (
               <div className="flex items-center justify-center">
                 <p className="text-center text-[18px] font-semibold text-dark-grey">
-                  {firstName} {lastName}
+                  {fullName}
                 </p>
               </div>
             )}
@@ -46,23 +50,19 @@ const PhonePreview = () => {
             }`}
           >
             {emailPreview && (
-              <p className="text-center text-[14px]">{emailPreview}</p>
+              <p className="text-center text-[14px]">
+                {emailPreview.slice(0, 15)}
+              </p>
             )}
           </div>
         </div>
 
-        {(imagePreview && (
+        {imagePreview || image ? (
           <img
-            src={imagePreview}
+            src={imagePreview || image}
             className="rounded-full w-24 h-24 absolute top-[166px] left-[230px] object-cover border-[4px] border-blue"
           />
-        )) ||
-          (image && (
-            <img
-              src={image}
-              className="rounded-full w-24 h-24 absolute top-[166px] left-[230px] object-cover  border-[4px] border-blue"
-            />
-          ))}
+        ) : null}
 
         <ul className="absolute top-[379px] left-[161px]">
           {linksArray.slice(0, 5).map(({ id, platform, url }) => (
