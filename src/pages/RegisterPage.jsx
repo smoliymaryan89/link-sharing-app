@@ -7,7 +7,7 @@ import AuthPrompt from "../components/AuthPrompt/AuthPrompt";
 
 const RegisterPage = () => {
   return (
-    <Container className={"py-[32px]  max-w-[343px] "}>
+    <Container className={"py-[30px] max-w-[343px] "}>
       <div className="flex items-center md:justify-center gap-[10px] mb-[64px] md:mb-[50px]">
         <svg className="block" width={40} height={40}>
           <use href={`#${sprite}_logo`}></use>

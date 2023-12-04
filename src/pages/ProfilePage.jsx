@@ -21,7 +21,7 @@ const ProfilePage = () => {
             <Button
               type="button"
               title="Logout"
-              className="pl-[0px] pr-[0px] max-w-[91px] text-white hover:bg-red transition-colors duration-350 w-full"
+              className="sm:max-w-[50px] sm:text-[10px] pl-[0px] pr-[0px] max-w-[91px] text-white hover:bg-red transition-colors duration-350 w-full"
               onClick={() => dispatch(logOut())}
             />
           </div>
