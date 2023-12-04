@@ -13,9 +13,10 @@ const Input = ({
   icon,
   iconStyle,
   onBlur,
+  wrapperStyles,
 }) => {
   return (
-    <div className={`relative  flex items-center`}>
+    <div className={`relative  flex items-center ${wrapperStyles}`}>
       <svg className={`absolute top-[16px] left-[16px] ${iconStyle}`}>
         <use href={`#${sprite}_${icon}`}></use>
       </svg>
@@ -27,7 +28,7 @@ const Input = ({
         value={value}
         onBlur={onBlur}
         placeholder={placeholder}
-        className={`rounded-[8px] w-full border-input border-[1px] outline-none text-[16px] leading-[1.5] text-dark-grey py-[12px] pl-[44px] pr-[44px] ${className}`}
+        className={`rounded-[8px] placeholder:opacity-50 placeholder:text-dark-grey w-full border-input border-[1px] outline-none text-[16px] leading-[1.5] text-dark-grey py-[12px] pl-[44px] pr-[44px] ${className}`}
       />
     </div>
   );
@@ -44,6 +45,7 @@ Input.propTypes = {
   placeholder: PropTypes.string,
   icon: PropTypes.string,
   iconStyle: PropTypes.string,
+  wrapperStyles: PropTypes.string,
 };
 
 export default Input;
