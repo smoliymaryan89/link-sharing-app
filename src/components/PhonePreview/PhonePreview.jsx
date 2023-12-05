@@ -28,7 +28,7 @@ const PhonePreview = () => {
   }
 
   return (
-    <section className="section">
+    <section className="section hidden lg:block">
       <div className=" w-[560px] h-[835.6px] bg-white rounded-[12px] py-[102px] px-[127px] relative ">
         <div className="absolute top-[287px] left-[200px] flex flex-col justify-center items-center">
           <div
@@ -51,7 +51,7 @@ const PhonePreview = () => {
           >
             {emailPreview && (
               <p className="text-center text-[14px]">
-                {emailPreview.slice(0, 15)}
+                {emailPreview.slice(0, 20)}
               </p>
             )}
           </div>
