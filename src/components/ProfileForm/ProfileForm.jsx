@@ -23,7 +23,14 @@ const lastName = nanoid();
 const emailPreview = nanoid();
 
 const ProfileForm = () => {
-  const { id, imagePreview, image } = useSelector(selectUser);
+  const {
+    id,
+    imagePreview,
+    image,
+    firstName: userFirstName,
+    lastName: userLastName,
+    emailPreview: userEmailPreview,
+  } = useSelector(selectUser);
   const isLoading = useSelector(selectIsLoading);
 
   const dispatch = useDispatch();
@@ -190,7 +197,7 @@ const ProfileForm = () => {
             name="firstName"
             onChange={handleInputChange}
             onBlur={handleBlur}
-            value={values.firstName}
+            value={userFirstName || values.firstName}
             type="text"
             placeholder={"e.g. John"}
             iconStyle={"hidden"}
@@ -219,7 +226,7 @@ const ProfileForm = () => {
           <Input
             id={lastName}
             name="lastName"
-            value={values.lastName}
+            value={userLastName || values.lastName}
             onChange={handleInputChange}
             onBlur={handleBlur}
             type="text"
@@ -250,7 +257,7 @@ const ProfileForm = () => {
           <Input
             id={emailPreview}
             name="emailPreview"
-            value={values.emailPreview}
+            value={userEmailPreview || values.emailPreview}
             onChange={handleInputChange}
             onBlur={handleBlur}
             type="emailPreview"
