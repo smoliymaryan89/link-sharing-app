@@ -1,19 +1,27 @@
 import { useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 
+import { nanoid } from "nanoid";
+
 import Container from "../components/Container/Container";
 import Button from "../components/Button/Button";
 import PreviewContent from "../components/PreviewContent/PreviewContent";
+import CustomToast from "../components/CustomToast/CustomToast";
+import toast from "react-hot-toast";
+
+const pageId = nanoid();
 
 const PreviewPage = () => {
   const location = useLocation();
+
+  const { VITE_FRONTEND_URL } = import.meta.env;
 
   const backLinkLocationRef = useRef(location.state?.from ?? "/");
 
   return (
     <Container>
       <div className="sm:hidden bg-blue absolute top-0 left-0 h-[357px] rounded-b-[32px] w-full -z-10"></div>
-      <ul className="flex items-center justify-between py-[16px] mb-[60px] md:mb-[126px] lg:mb-[106px] mt-[16px] md:px-[16px] md:rounded-[12px] md:bg-white">
+      <ul className="flex items-center justify-between py-[16px] mb-[60px] md:mb-[126px] lg:mb-[106px]  md:mt-[16px] md:px-[16px] md:rounded-[12px] md:bg-white">
         <li>
           <Link
             to={backLinkLocationRef.current}
@@ -27,6 +35,18 @@ const PreviewPage = () => {
             className="pl-[40px] pr-[40px] max-w-[160px] xs:h-[43px]  h-[47.6px]  text-white xs:text-[13px] text-[16px] transition-colors duration-350 hover:bg-active"
             type="button"
             title="Share Link"
+            onClick={() => {
+              toast.custom((t) => (
+                <CustomToast
+                  t={t}
+                  text={"The link has been copied to your clipboard!"}
+                  icon={"link"}
+                />
+              ));
+              navigator.clipboard.writeText(
+                `${VITE_FRONTEND_URL}/shared/${pageId}`
+              );
+            }}
           />
         </li>
       </ul>
