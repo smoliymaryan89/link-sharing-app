@@ -4,9 +4,7 @@ import { handleFulfilled, handlePending, handleRejected } from "../handlers";
 
 const initialState = {
   user: {
-    name: null,
-    email: null,
-    avatarURL: null,
+    email: "",
   },
   token: null,
   isLoggedIn: false,
@@ -26,19 +24,18 @@ const authSlice = createSlice({
         handleFulfilled(state);
       })
       .addCase(login.fulfilled, (state, { payload }) => {
-        state.user = payload.user;
+        state.user.email = payload.email;
         state.token = payload.token;
         state.isLoggedIn = true;
         handleFulfilled(state);
       })
       .addCase(logOut.fulfilled, (state) => {
-        state.user = { name: null, email: null, avatarURL: null };
         state.token = null;
         state.isLoggedIn = false;
         handleFulfilled(state);
       })
       .addCase(refreshUser.fulfilled, (state, { payload }) => {
-        state.user = payload.user;
+        state.user.email = payload.email;
         state.isLoggedIn = true;
         state.token = payload.token;
         state.isRefreshing = false;
