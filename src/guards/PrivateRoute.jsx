@@ -1,14 +1,14 @@
 import PropTypes from "prop-types";
 
-import { useSelector } from "react-redux";
 import { useLocation, Navigate } from "react-router-dom";
-import { selectToken } from "../redux/auth/authSelectors";
+
+import useAuth from "../hooks/useAuth";
 
 const PrivateRoute = ({ children }) => {
-  const isAuth = useSelector(selectToken);
+  const { token } = useAuth();
   const location = useLocation();
 
-  return isAuth ? children : <Navigate to="/login" state={location} />;
+  return token ? children : <Navigate to="/login" state={location} />;
 };
 
 PrivateRoute.propTypes = {
