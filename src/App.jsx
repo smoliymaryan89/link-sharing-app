@@ -1,8 +1,12 @@
 import { Suspense, lazy, useEffect } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 
 import { useDispatch } from "react-redux";
 import { refreshUser } from "./redux/auth/authOperations";
+import { fetchUserData, getProfile } from "./redux/user/userOperations";
+import { getAllLinks } from "./redux/link/linkOperations";
+
+import { Toaster } from "react-hot-toast";
 
 import useAuth from "./hooks/useAuth";
 
@@ -10,7 +14,6 @@ import PrivateRoute from "./guards/PrivateRoute";
 import PublicRoute from "./guards/PublicRoute";
 
 import Layout from "./layouts/Layout";
-import { fetchUserData, getProfile } from "./redux/user/userOperations";
 import Loader from "./components/Loader/Loader";
 
 const RegisterPage = lazy(() => import("./pages/RegisterPage"));
@@ -18,23 +21,32 @@ const LoginPage = lazy(() => import("./pages/LoginPage"));
 const PreviewPage = lazy(() => import("./pages/PreviewPage"));
 const ProfilePage = lazy(() => import("./pages/ProfilePage"));
 const LinksPage = lazy(() => import("./pages/LinksPage"));
-const NotFoundPage = lazy(() => import("./pages/NotFoundPage"));
+const SharedPage = lazy(() => import("./pages/SharedPage"));
 
 const App = () => {
   const dispatch = useDispatch();
-  const { isRefreshing, isLoading } = useAuth();
 
-  useEffect(() => {
-    dispatch(fetchUserData());
-    dispatch(getProfile());
-  }, [dispatch]);
+  const location = useLocation();
+
+  const { isRefreshing, isLoading } = useAuth();
 
   useEffect(() => {
     dispatch(refreshUser());
   }, [dispatch]);
 
+  useEffect(() => {
+    if (
+      location.pathname !== "/registration" &&
+      location.pathname !== "/login"
+    ) {
+      dispatch(fetchUserData());
+      dispatch(getProfile());
+      dispatch(getAllLinks());
+    }
+  }, [dispatch, location.pathname]);
+
   if (isRefreshing && isLoading) {
-    return <Loader />;
+    return <Loader className={"bg-overlay"} />;
   }
 
   return (
@@ -67,6 +79,7 @@ const App = () => {
               </PrivateRoute>
             }
           />
+          <Route path="shared/:id" element={<SharedPage />} />
           <Route
             path="login"
             element={
@@ -83,16 +96,9 @@ const App = () => {
               </PublicRoute>
             }
           />
-
-          <Route
-            path="*"
-            element={
-              <PublicRoute>
-                <NotFoundPage />
-              </PublicRoute>
-            }
-          />
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
+        <Toaster position="bottom-center" toastOptions={{ duration: 2000 }} />
       </Suspense>
     )
   );
