@@ -5,9 +5,13 @@ import { useDispatch } from "react-redux";
 import { register } from "../../redux/auth/authOperations";
 
 import { registerValidationSchema } from "../../utils/validationSchemas";
+import useAuth from "../../hooks/useAuth";
 
 import Input from "../Input/Input";
 import Button from "../Button/Button";
+import toast from "react-hot-toast";
+import CustomToast from "../CustomToast/CustomToast";
+import BtnLoader from "../Loader/BtnLoader";
 
 const email = nanoid();
 const password = nanoid();
@@ -16,27 +20,57 @@ const confirmPassword = nanoid();
 const RegisterForm = () => {
   const dispatch = useDispatch();
 
-  const formik = useFormik({
+  const { error, isLoading } = useAuth();
+
+  if (isLoading) {
+    document.body.style.overflow = "hidden";
+  } else {
+    document.body.style.overflow = "auto";
+  }
+
+  const {
+    errors,
+    values,
+    touched,
+    handleBlur,
+    handleChange,
+    handleSubmit,
+    resetForm,
+  } = useFormik({
     initialValues: {
       email: "",
       password: "",
       confirmPassword: "",
     },
     validationSchema: registerValidationSchema,
-    onSubmit: ({ email, password, confirmPassword }) => {
+    onSubmit: async ({ email, password, confirmPassword }) => {
       if (!email.trim() || !password.trim() || !confirmPassword.trim()) {
         return;
       }
 
-      dispatch(register({ email, password }));
+      try {
+        await dispatch(register({ email, password })).unwrap();
 
-      formik.resetForm();
+        toast.custom((t) => (
+          <CustomToast
+            t={t}
+            text={"Registration is successful!"}
+            icon={"check"}
+          />
+        ));
+
+        resetForm();
+      } catch (e) {
+        toast.custom((t) => (
+          <CustomToast t={t} text={"Registration failed!"} icon={"warning"} />
+        ));
+      }
     },
   });
 
   return (
     <form
-      onSubmit={formik.handleSubmit}
+      onSubmit={handleSubmit}
       className="flex flex-col mb-[24px]"
       noValidate
     >
@@ -48,20 +82,24 @@ const RegisterForm = () => {
           id={email}
           name="email"
           type="email"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.email}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          value={values.email}
           placeholder={"e.g. alex@email.com"}
           icon={"email"}
           iconStyle={"fill-grey w-[16px] h-[16px]"}
-          className={` ${
-            formik.errors.email ? "pr-[160px]" : "pr-[44px]"
-          } focus:border-blue box-shadow-input`}
+          className={
+            errors.email && touched.email
+              ? "border-red focus:border-red"
+              : "focus:border-blue box-shadow-input"
+          }
         />
 
-        {formik.touched.email && formik.errors.email ? (
-          <div className="absolute top-[15px] right-[16px] ">
-            <p className="text-red text-[12px]"> {formik.errors.email}</p>
+        {(touched.email && errors.email) || error?.status === 409 ? (
+          <div className="absolute  bottom-[54px] right-[16px] ">
+            <p className="text-red text-[12px]">
+              {error?.status === 409 ? "Email in use" : errors.email}
+            </p>
           </div>
         ) : null}
       </div>
@@ -74,19 +112,21 @@ const RegisterForm = () => {
           id={password}
           name="password"
           type="password"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.password}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          value={values.password}
           placeholder={"At least .8 characters"}
           icon={"password"}
           iconStyle={"fill-grey w-[16px] h-[16px]"}
-          className={` ${
-            formik.errors.password ? "pr-[160px]" : "pr-[44px]"
-          } focus:border-blue box-shadow-input`}
+          className={
+            errors.password && touched.password
+              ? "border-red focus:border-red"
+              : "focus:border-blue box-shadow-input"
+          }
         />
-        {formik.touched.password && formik.errors.password ? (
-          <div className="absolute top-[15px] right-[16px] ">
-            <p className="text-red text-[12px]"> {formik.errors.password}</p>
+        {touched.password && errors.password ? (
+          <div className="absolute bottom-[54px] right-[16px]">
+            <p className="text-red text-[12px]"> {errors.password}</p>
           </div>
         ) : null}
       </div>
@@ -103,30 +143,32 @@ const RegisterForm = () => {
           id={confirmPassword}
           name="confirmPassword"
           type="password"
-          onChange={formik.handleChange}
-          value={formik.values.confirmPassword}
+          onChange={handleChange}
+          value={values.confirmPassword}
+          onBlur={handleBlur}
           placeholder={"At least .8 characters"}
           icon={"password"}
           iconStyle={"fill-grey w-[16px] h-[16px]"}
-          className={` ${
-            formik.errors.confirmPassword ? "pr-[160px]" : "pr-[44px]"
-          } focus:border-blue box-shadow-input`}
+          className={
+            errors.confirmPassword && touched.confirmPassword
+              ? "border-red focus:border-red"
+              : "focus:border-blue box-shadow-input"
+          }
         />
 
-        {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
-          <div className="absolute top-[15px] right-[16px] ">
-            <p className="text-red text-[12px]">
-              {formik.errors.confirmPassword}
-            </p>
+        {touched.confirmPassword && errors.confirmPassword ? (
+          <div className="absolute bottom-[54px] right-[16px] ">
+            <p className="text-red text-[12px]">{errors.confirmPassword}</p>
           </div>
         ) : null}
       </div>
 
       <Button
-        title={"Create new account"}
+        title={isLoading ? <BtnLoader /> : "Create new account"}
+        disabled={isLoading}
         type="submit"
         className={
-          "text-white hover:bg-blue hover:opacity-50 hover:text-white transition-all duration-350"
+          "text-white hover:bg-active hover:shadow-active-shadow hover:text-white transition-all duration-350 disabled:bg-blue disabled:opacity-[0.25]"
         }
       />
     </form>
