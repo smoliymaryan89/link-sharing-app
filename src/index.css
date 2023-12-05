@@ -6,11 +6,8 @@
 @tailwind utilities;
 
 @layer base {
-  html {
-    @apply text-grey text-[16px];
-  }
   body {
-    @apply leading-[1.5] bg-light-grey;
+    @apply text-grey text-[16px] leading-[1.5] bg-light-grey;
   }
 }
 
@@ -64,4 +61,8 @@
 
 .link-list::-webkit-scrollbar-thumb {
   @apply bg-grey rounded-[10px];
+}
+
+.profile-wrapper-input:hover .change-img {
+  @apply opacity-100;
 }
