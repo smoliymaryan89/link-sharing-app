@@ -1,4 +1,4 @@
-import * as Yup from "Yup";
+import * as Yup from "yup";
 
 const emailRegex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
 
