@@ -13,9 +13,9 @@ import useAuth from "./hooks/useAuth";
 import PrivateRoute from "./guards/PrivateRoute";
 import PublicRoute from "./guards/PublicRoute";
 
-import Layout from "./layouts/Layout";
 import Loader from "./components/Loader/Loader";
 
+const Layout = lazy(() => import("./layouts/Layout"));
 const RegisterPage = lazy(() => import("./pages/RegisterPage"));
 const LoginPage = lazy(() => import("./pages/LoginPage"));
 const PreviewPage = lazy(() => import("./pages/PreviewPage"));

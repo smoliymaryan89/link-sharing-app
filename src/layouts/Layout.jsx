@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { Outlet } from "react-router-dom";
 
 import Header from "../components/Header/Header";
@@ -10,7 +11,10 @@ const Layout = () => {
 
       <main className="flex">
         <PhonePreview />
-        <Outlet />
+
+        <Suspense>
+          <Outlet />
+        </Suspense>
       </main>
     </>
   );
