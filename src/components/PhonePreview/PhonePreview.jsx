@@ -15,11 +15,18 @@ const PhonePreview = () => {
   const links = useSelector(selectLinks);
   const previewLinks = useSelector(selectPreviewLinks);
 
-  const nonMatchingPreviewLinks = previewLinks.filter(
-    (previewLink) => !links.some((link) => link.id === previewLink.id)
+  const combinedLinks = [
+    ...previewLinks,
+    ...links.filter(
+      (link) => !previewLinks.some((previewLink) => previewLink.id === link.id)
+    ),
+  ].sort(
+    (a, b) =>
+      links.findIndex((link) => link.id === a.id) -
+      links.findIndex((link) => link.id === b.id)
   );
 
-  const linksArray = [...links, ...nonMatchingPreviewLinks];
+  const linksArray = combinedLinks.slice(0, 5);
 
   let fullName = `${firstName} ${lastName}`;
 
