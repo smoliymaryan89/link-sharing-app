@@ -60,28 +60,20 @@ const ProfileForm = () => {
           formData.append("avatarURL", image);
 
           await dispatch(updateUserAvatar(formData)).unwrap();
-          toast.custom((t) => (
-            <CustomToast
-              t={t}
-              text={"Your changes have been successfully saved!"}
-              icon={"save"}
-            />
-          ));
         }
 
         if (firstName.trim() || lastName.trim() || emailPreview.trim()) {
           await dispatch(
             updateUserProfile({ firstName, lastName, emailPreview, id })
           ).unwrap();
-
-          toast.custom((t) => (
-            <CustomToast
-              t={t}
-              text={"Your changes have been successfully saved!"}
-              icon={"save"}
-            />
-          ));
         }
+        toast.custom((t) => (
+          <CustomToast
+            t={t}
+            text={"Your changes have been successfully saved!"}
+            icon={"save"}
+          />
+        ));
 
         resetForm();
       } catch ({
