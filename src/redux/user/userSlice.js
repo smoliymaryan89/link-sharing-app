@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
-  fetchUserData,
+  getUserAvatar,
   getProfile,
   updateUserAvatar,
   updateUserProfile,
@@ -30,7 +30,7 @@ const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchUserData.fulfilled, (state, { payload }) => {
+      .addCase(getUserAvatar.fulfilled, (state, { payload }) => {
         const { avatarURL, _id } = payload;
 
         state.user = {

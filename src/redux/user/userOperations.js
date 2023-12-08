@@ -17,8 +17,8 @@ export const getProfile = createAsyncThunk(
   }
 );
 
-export const fetchUserData = createAsyncThunk(
-  "user/fetchUser",
+export const getUserAvatar = createAsyncThunk(
+  "user/getAvatar",
   async (_, { rejectWithValue }) => {
     const token = localStorage.getItem("token");
 
