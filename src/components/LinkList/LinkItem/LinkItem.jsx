@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { nanoid } from "nanoid";
 import { useState } from "react";
 
-import { Reorder } from "framer-motion";
+import { Reorder, useDragControls } from "framer-motion";
 
 import { useDispatch, useSelector } from "react-redux";
 import { deletePreviewLink, getData } from "../../../redux/link/linkSlice";
@@ -32,6 +32,7 @@ const LinkItem = ({ handleDelete, item, linkList, index }) => {
   const [linkUrl, setLinkUrl] = useState(url || "");
 
   const dispatch = useDispatch();
+  const controls = useDragControls();
 
   const links = useSelector(selectLinks);
   const previewLink = useSelector(selectPreviewLinks);
@@ -53,6 +54,8 @@ const LinkItem = ({ handleDelete, item, linkList, index }) => {
   return (
     <Reorder.Item
       value={item}
+      dragListener={false}
+      dragControls={controls}
       initial={{ opacity: 0, scale: 0.5 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{
@@ -63,7 +66,12 @@ const LinkItem = ({ handleDelete, item, linkList, index }) => {
       className="p-[17px] rounded-[12px] bg-light-grey mb-[15px] mr-[8px] "
     >
       <div className="flex items-center mb-[12px]">
-        <svg className="block mr-[8px]" width={12} height={6}>
+        <svg
+          className="block mr-[8px]"
+          width={12}
+          height={6}
+          onPointerDown={(e) => controls.start(e)}
+        >
           <use href={`#${sprite}_line`}></use>
         </svg>
 
@@ -120,7 +128,7 @@ const LinkItem = ({ handleDelete, item, linkList, index }) => {
           icon={"link"}
           iconStyle={"w-[16px] h-[16px] fill-grey"}
           onChange={handleInput}
-          placeholder={getPlaceholder(selectedLink)}
+          placeholder={getPlaceholder(selectedLink ?? platform)}
         />
       </div>
     </Reorder.Item>
