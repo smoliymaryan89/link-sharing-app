@@ -1,10 +1,8 @@
 import { Suspense, lazy, useEffect } from "react";
-import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 
 import { useDispatch } from "react-redux";
 import { refreshUser } from "./redux/auth/authOperations";
-import { fetchUserData, getProfile } from "./redux/user/userOperations";
-import { getAllLinks } from "./redux/link/linkOperations";
 
 import { Toaster } from "react-hot-toast";
 
@@ -26,24 +24,11 @@ const SharedPage = lazy(() => import("./pages/SharedPage"));
 const App = () => {
   const dispatch = useDispatch();
 
-  const location = useLocation();
-
   const { isRefreshing, isLoading } = useAuth();
 
   useEffect(() => {
     dispatch(refreshUser());
   }, [dispatch]);
-
-  useEffect(() => {
-    if (
-      location.pathname !== "/registration" &&
-      location.pathname !== "/login"
-    ) {
-      dispatch(fetchUserData());
-      dispatch(getProfile());
-      dispatch(getAllLinks());
-    }
-  }, [dispatch, location.pathname]);
 
   if (isRefreshing && isLoading) {
     return <Loader className={"bg-overlay"} />;

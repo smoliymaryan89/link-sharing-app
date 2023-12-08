@@ -1,9 +1,15 @@
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+
+import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "../../redux/user/userSelectors";
 import {
   selectLinks,
   selectPreviewLinks,
 } from "../../redux/link/linkSelectors";
+
+import { getAllLinks } from "../../redux/link/linkOperations";
+import { getProfile, getUserAvatar } from "../../redux/user/userOperations";
 
 import PhoneIcon from "../../assets/icons/phone.svg";
 import PreviewItem from "../LinkList/PreviewItem/PreviewItem";
@@ -12,8 +18,35 @@ const PhonePreview = () => {
   const { image, imagePreview, lastName, firstName, emailPreview } =
     useSelector(selectUser);
 
+  const dispatch = useDispatch();
+
+  const location = useLocation();
+
   const links = useSelector(selectLinks);
   const previewLinks = useSelector(selectPreviewLinks);
+
+  useEffect(() => {
+    if (links.length === 0 && location.pathname !== "/") {
+      dispatch(getAllLinks());
+    }
+  }, [dispatch, links.length, location.pathname]);
+
+  useEffect(() => {
+    if (!image && !imagePreview && location.pathname !== "/profile") {
+      dispatch(getUserAvatar());
+    }
+  }, [dispatch, image, imagePreview, location.pathname]);
+
+  useEffect(() => {
+    if (
+      !firstName &&
+      !lastName &&
+      !emailPreview &&
+      location.pathname !== "/profile"
+    ) {
+      dispatch(getProfile());
+    }
+  }, [dispatch, emailPreview, firstName, lastName, location.pathname]);
 
   const combinedLinks = [
     ...previewLinks,
@@ -28,7 +61,7 @@ const PhonePreview = () => {
 
   const linksArray = combinedLinks.slice(0, 5);
 
-  let fullName = `${firstName} ${lastName}`;
+  let fullName = `${firstName ?? ""} ${lastName ?? ""}`;
 
   if (fullName.length > 15) {
     fullName = fullName.slice(0, 15);
@@ -40,10 +73,10 @@ const PhonePreview = () => {
         <div className="absolute top-[287px] left-[200px] flex flex-col justify-center items-center">
           <div
             className={`w-[160px] h-[16px] rounded-[104px] bg-[#eee] mb-[13px] ${
-              firstName && "bg-transparent"
+              (firstName || lastName) && "bg-transparent"
             }`}
           >
-            {firstName && (
+            {fullName && (
               <div className="flex items-center justify-center">
                 <p className="text-center text-[18px] font-semibold text-dark-grey">
                   {fullName}

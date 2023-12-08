@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { nanoid } from "nanoid";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -9,6 +9,7 @@ import {
 } from "../redux/link/linkSelectors";
 import {
   addLink,
+  getAllLinks,
   reorderLinkData,
   updateLink,
 } from "../redux/link/linkOperations";
@@ -27,6 +28,10 @@ const LinksPage = () => {
   const [linkList, setLinkList] = useState([]);
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAllLinks());
+  }, [dispatch]);
 
   const previewLinks = useSelector(selectPreviewLinks);
   const links = useSelector(selectLinks);

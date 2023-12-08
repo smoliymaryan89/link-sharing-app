@@ -1,5 +1,8 @@
+import { useEffect } from "react";
+
 import { useDispatch } from "react-redux";
 import { logOut } from "../redux/auth/authOperations";
+import { getUserAvatar, getProfile } from "../redux/user/userOperations";
 
 import Button from "../components/Button/Button";
 import Container from "../components/Container/Container";
@@ -8,6 +11,11 @@ import ProfileForm from "../components/ProfileForm/ProfileForm";
 
 const ProfilePage = () => {
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getUserAvatar());
+    dispatch(getProfile());
+  }, [dispatch]);
 
   return (
     <section className="section flex-1">
