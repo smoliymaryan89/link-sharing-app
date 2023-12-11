@@ -49,7 +49,15 @@ const PhonePreview = () => {
   }, [dispatch, emailPreview, firstName, lastName, location.pathname]);
 
   const combinedLinks = [
-    ...previewLinks,
+    ...previewLinks.map((previewLink) => ({
+      ...previewLink,
+      platform:
+        previewLink.platform ||
+        links.find((link) => link.id === previewLink.id)?.platform,
+      url:
+        previewLink.url ||
+        links.find((link) => link.id === previewLink.id)?.url,
+    })),
     ...links.filter(
       (link) => !previewLinks.some((previewLink) => previewLink.id === link.id)
     ),
