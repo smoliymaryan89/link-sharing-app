@@ -66,16 +66,16 @@ const LinkItem = ({ handleDelete, item, linkList, index }) => {
       className="p-[17px] rounded-[12px] bg-light-grey mb-[15px] mr-[8px] "
     >
       <div className="flex items-center mb-[12px]">
-        <svg
-          className="block mr-[8px]"
-          width={12}
-          height={6}
+        <div
+          className="flex items-center"
           onPointerDown={(e) => controls.start(e)}
         >
-          <use href={`#${sprite}_line`}></use>
-        </svg>
+          <svg className="block mr-[8px]" width={12} height={6}>
+            <use href={`#${sprite}_line`}></use>
+          </svg>
 
-        <p className="font-bold">Link #{index + 1}</p>
+          <p className="font-bold">Link #{index + 1}</p>
+        </div>
 
         <Button
           type={"button"}

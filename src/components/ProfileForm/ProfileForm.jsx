@@ -193,7 +193,7 @@ const ProfileForm = () => {
             type="text"
             placeholder={"e.g. John"}
             iconStyle={"hidden"}
-            className={`profile-input md:ml-auto md:max-w-[344px] lg:max-w-[432px] focus:border-blue box-shadow-input ${
+            className={`profile-input md:ml-auto md:max-w-[344px] lg:max-w-[432px] ${
               errors.firstName && touched.firstName
                 ? "border-red focus:border-red !pr-[230px]"
                 : "focus:border-blue box-shadow-input"
@@ -224,7 +224,7 @@ const ProfileForm = () => {
             type="text"
             placeholder={"e.g. Appleseed"}
             iconStyle={"hidden"}
-            className={`profile-input md:ml-auto md:max-w-[344px] lg:max-w-[432px] focus:border-blue box-shadow-input ${
+            className={`profile-input md:ml-auto md:max-w-[344px] lg:max-w-[432px] ${
               errors.lastName && touched.lastName
                 ? "border-red focus:border-red !pr-[230px]"
                 : "focus:border-blue box-shadow-input"
