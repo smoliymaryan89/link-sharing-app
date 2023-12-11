@@ -22,12 +22,6 @@ const RegisterForm = () => {
 
   const { error, isLoading } = useAuth();
 
-  if (isLoading) {
-    document.body.style.overflow = "hidden";
-  } else {
-    document.body.style.overflow = "auto";
-  }
-
   const {
     errors,
     values,
