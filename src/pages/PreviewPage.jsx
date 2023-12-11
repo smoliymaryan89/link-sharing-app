@@ -20,7 +20,7 @@ const PreviewPage = () => {
 
   const links = useSelector(selectLinks);
 
-  const { image, imagePreview, lastName, firstName, emailPreview } =
+  const { image, imagePreview, lastName, firstName, emailPreview, id } =
     useSelector(selectUser);
 
   useEffect(() => {
@@ -75,7 +75,7 @@ const PreviewPage = () => {
                     />
                   ));
                   navigator.clipboard.writeText(
-                    `${VITE_FRONTEND_URL}/shared/${21313}`
+                    `${VITE_FRONTEND_URL}/shared/${id}`
                   );
                 }}
               />
@@ -84,7 +84,13 @@ const PreviewPage = () => {
         </nav>
       </header>
 
-      <PreviewContent />
+      <PreviewContent
+        image={image}
+        lastName={lastName}
+        firstName={firstName}
+        emailPreview={emailPreview}
+        links={links}
+      />
     </Container>
   );
 };
