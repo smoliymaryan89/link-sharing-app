@@ -1,15 +1,16 @@
 import PropTypes from "prop-types";
 
-import { useSelector } from "react-redux";
-import { selectLinks } from "../../redux/link/linkSelectors";
-import { selectUser } from "../../redux/user/userSelectors";
-
 import PreviewItem from "../LinkList/PreviewItem/PreviewItem";
 
-const PreviewContent = ({ className }) => {
-  const links = useSelector(selectLinks);
-  const { image, lastName, firstName, emailPreview } = useSelector(selectUser);
-
+const PreviewContent = ({
+  className,
+  image,
+  lastName,
+  firstName,
+  emailPreview,
+  sharedLinks,
+  links,
+}) => {
   return (
     <div
       className={`max-w-[350px] mx-auto md:py-[48px] md:px-[56px] md:rounded-[24px] md:bg-white md:shadow-card-shadow ${className}`}
@@ -26,15 +27,18 @@ const PreviewContent = ({ className }) => {
 
         <ul>
           <li className="text-[32px] font-bold text-dark-grey text-center mb-[8px]">
-            {firstName && firstName} {lastName && lastName}
+            {firstName} {lastName}
           </li>
-          <li className="text-center">{emailPreview && emailPreview}</li>
+          <li className="text-center">{emailPreview}</li>
         </ul>
       </div>
 
-      {links.length > 0 && (
+      {(links?.length > 0 || sharedLinks?.length > 0) && (
         <ul className="flex flex-col items-center">
-          {links.map(({ id, platform, url }) => (
+          {links?.map(({ id, platform, url }) => (
+            <PreviewItem key={id} platform={platform} url={url} />
+          ))}
+          {sharedLinks?.map(({ id, platform, url }) => (
             <PreviewItem key={id} platform={platform} url={url} />
           ))}
         </ul>
@@ -45,6 +49,24 @@ const PreviewContent = ({ className }) => {
 
 PreviewContent.propTypes = {
   className: PropTypes.string,
+  image: PropTypes.string,
+  lastName: PropTypes.string,
+  firstName: PropTypes.string,
+  emailPreview: PropTypes.string,
+  sharedLinks: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      platform: PropTypes.object,
+      url: PropTypes.string,
+    })
+  ),
+  links: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      platform: PropTypes.object,
+      url: PropTypes.string,
+    })
+  ),
 };
 
 export default PreviewContent;
