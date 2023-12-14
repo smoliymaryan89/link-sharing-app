@@ -3,11 +3,12 @@ import { instance, setAuthHeader } from "../auth/authOperations";
 
 export const addLink = createAsyncThunk(
   "link/addLink",
-  async (linkData, { rejectWithValue }) => {
-    const token = localStorage.getItem("token");
+  async (linkData, { rejectWithValue, getState }) => {
+    const state = getState();
+    const persistedToken = state.auth.token;
 
     try {
-      setAuthHeader(token);
+      setAuthHeader(persistedToken);
       const { data } = await instance.post("api/link/", { links: linkData });
 
       return data;
@@ -19,11 +20,12 @@ export const addLink = createAsyncThunk(
 
 export const getAllLinks = createAsyncThunk(
   "link/getLinks",
-  async (_, { rejectWithValue }) => {
-    const token = localStorage.getItem("token");
+  async (_, { rejectWithValue, getState }) => {
+    const state = getState();
+    const persistedToken = state.auth.token;
 
     try {
-      setAuthHeader(token);
+      setAuthHeader(persistedToken);
       const { data } = await instance.get(`api/link`);
 
       return data;
@@ -35,11 +37,12 @@ export const getAllLinks = createAsyncThunk(
 
 export const updateLink = createAsyncThunk(
   "link/updateLink",
-  async ({ id, links }, { rejectWithValue }) => {
-    const token = localStorage.getItem("token");
+  async ({ id, links }, { rejectWithValue, getState }) => {
+    const state = getState();
+    const persistedToken = state.auth.token;
 
     try {
-      setAuthHeader(token);
+      setAuthHeader(persistedToken);
       const { data } = await instance.patch(`api/link/${id}`, {
         ...links,
       });
@@ -53,11 +56,12 @@ export const updateLink = createAsyncThunk(
 
 export const reorderLinkData = createAsyncThunk(
   "link/reorderLinks",
-  async (links, { rejectWithValue }) => {
-    const token = localStorage.getItem("token");
+  async (links, { rejectWithValue, getState }) => {
+    const state = getState();
+    const persistedToken = state.auth.token;
 
     try {
-      setAuthHeader(token);
+      setAuthHeader(persistedToken);
       const { data } = await instance.patch(`api/link/reorder`, links);
 
       return data;
@@ -69,11 +73,12 @@ export const reorderLinkData = createAsyncThunk(
 
 export const deleteLink = createAsyncThunk(
   "link/deleteLink",
-  async (id, { rejectWithValue }) => {
-    const token = localStorage.getItem("token");
+  async (id, { rejectWithValue, getState }) => {
+    const state = getState();
+    const persistedToken = state.auth.token;
 
     try {
-      setAuthHeader(token);
+      setAuthHeader(persistedToken);
       const { data } = await instance.delete(`api/link/${id}`);
 
       return data;

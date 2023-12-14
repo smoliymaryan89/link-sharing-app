@@ -10,12 +10,10 @@ export const instance = axios.create({
 
 export const setAuthHeader = (token) => {
   instance.defaults.headers.common.Authorization = `Bearer ${token}`;
-  localStorage.setItem("token", token);
 };
 
 export const clearAuthHeader = () => {
   instance.defaults.headers.common.Authorization = "";
-  localStorage.removeItem("token");
 };
 
 export const register = createAsyncThunk(
@@ -59,15 +57,16 @@ export const logOut = createAsyncThunk(
 
 export const refreshUser = createAsyncThunk(
   "auth/refresh",
-  async (_, { rejectWithValue }) => {
-    const token = localStorage.getItem("token");
+  async (_, { rejectWithValue, getState }) => {
+    const state = getState();
+    const persistedToken = state.auth.token;
 
-    if (token === null) {
+    if (persistedToken === null) {
       return rejectWithValue("Unable to fetch user");
     }
 
     try {
-      setAuthHeader(token);
+      setAuthHeader(persistedToken);
       const { data } = await instance.get("/api/auth/current");
       return data;
     } catch (error) {
