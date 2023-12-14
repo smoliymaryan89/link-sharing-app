@@ -12,8 +12,8 @@ import PrivateRoute from "./guards/PrivateRoute";
 import PublicRoute from "./guards/PublicRoute";
 
 import Loader from "./components/Loader/Loader";
+import Layout from "./layouts/Layout";
 
-const Layout = lazy(() => import("./layouts/Layout"));
 const RegisterPage = lazy(() => import("./pages/RegisterPage"));
 const LoginPage = lazy(() => import("./pages/LoginPage"));
 const PreviewPage = lazy(() => import("./pages/PreviewPage"));
@@ -31,12 +31,12 @@ const App = () => {
   }, [dispatch]);
 
   if (isRefreshing && isLoading) {
-    return <Loader className={"bg-overlay"} />;
+    return <Loader />;
   }
 
   return (
     !isRefreshing && (
-      <Suspense>
+      <Suspense fallback={<Loader />}>
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route
