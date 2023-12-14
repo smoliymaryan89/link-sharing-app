@@ -63,11 +63,11 @@ const LinkItem = ({ handleDelete, item, linkList, index }) => {
         ease: [0, 0.71, 0.2, 1.01],
       }}
       id={itemId}
-      className="p-[17px] rounded-[12px] bg-light-grey mb-[15px] mr-[8px] "
+      className="p-[17px] rounded-[12px] bg-light-grey mb-[15px] mr-[8px]"
     >
       <div className="flex items-center mb-[12px]">
         <div
-          className="flex items-center"
+          className="flex items-center cursor-grabbing select-none"
           onPointerDown={(e) => controls.start(e)}
         >
           <svg className="block mr-[8px]" width={12} height={6}>
