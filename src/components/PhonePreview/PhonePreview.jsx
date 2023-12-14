@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
+import EllipsisText from "react-ellipsis-text";
+
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "../../redux/user/userSelectors";
 import {
@@ -69,11 +71,7 @@ const PhonePreview = () => {
 
   const linksArray = combinedLinks.slice(0, 5);
 
-  let fullName = `${firstName ?? ""} ${lastName ?? ""}`;
-
-  if (fullName.length > 15) {
-    fullName = fullName.slice(0, 15);
-  }
+  const fullName = `${firstName ?? ""} ${lastName ?? ""}`;
 
   return (
     <section className="section hidden lg:block">
@@ -86,21 +84,27 @@ const PhonePreview = () => {
           >
             {fullName && (
               <div className="flex items-center justify-center">
-                <p className="text-center text-[18px] font-semibold text-dark-grey">
-                  {fullName}
-                </p>
+                <EllipsisText
+                  text={fullName}
+                  length={16}
+                  className={
+                    "text-center text-[18px] font-semibold text-dark-grey"
+                  }
+                />
               </div>
             )}
           </div>
           <div
-            className={`min-w-[72px] h-[8px] rounded-[104px] bg-[#eee]   mx-auto ${
+            className={`min-w-[72px] h-[8px] rounded-[104px] bg-[#eee] mx-auto ${
               emailPreview && "bg-transparent "
             }`}
           >
             {emailPreview && (
-              <p className="text-center text-[14px]">
-                {emailPreview.slice(0, 20)}
-              </p>
+              <EllipsisText
+                text={emailPreview}
+                length={20}
+                className={"text-center text-[14px]"}
+              />
             )}
           </div>
         </div>
