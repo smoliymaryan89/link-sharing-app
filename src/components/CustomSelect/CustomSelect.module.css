@@ -48,6 +48,10 @@
   @apply !flex items-center gap-[12px] !p-0 !py-[12px] border-b border-b-input last:border-b-0;
 }
 
+.custom-select__option:active {
+  @apply !bg-transparent;
+}
+
 .custom-select__option--is-focused {
   @apply !bg-transparent;
 }
