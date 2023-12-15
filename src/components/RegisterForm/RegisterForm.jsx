@@ -162,7 +162,7 @@ const RegisterForm = () => {
         disabled={isLoading}
         type="submit"
         className={
-          "text-white hover:bg-active hover:shadow-active-shadow hover:text-white transition-all duration-350 disabled:bg-blue disabled:opacity-[0.25]"
+          "text-white max-w-full sm:px-[65px] hover:bg-active hover:shadow-active-shadow hover:text-white transition-all duration-350 disabled:bg-blue disabled:opacity-[0.25]"
         }
       />
     </form>

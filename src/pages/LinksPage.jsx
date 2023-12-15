@@ -103,7 +103,13 @@ const LinksPage = () => {
               />
             ) : (
               itemsArray.length > 0 && (
-                <div className="link-list overflow-y-auto h-[510px]">
+                <div
+                  className={`link-list ${
+                    itemsArray.length > 2
+                      ? "overflow-y-auto"
+                      : "overflow-y-hidden"
+                  } h-[510px]`}
+                >
                   <LinkList
                     itemsArray={itemsArray}
                     linkList={linkList}

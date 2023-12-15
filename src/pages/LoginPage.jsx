@@ -17,7 +17,7 @@ const LoginPage = () => {
         </p>
       </div>
 
-      <div className="md:max-w-[476px] py-[40px] px-[40px] bg-white rounded-[10px] mx-auto">
+      <div className="py-[40px] rounded-[10px] mx-auto md:px-[40px] md:bg-white md:max-w-[476px]">
         <InfoPanel
           title={"Login"}
           text={"Add your details below to get back into the app"}

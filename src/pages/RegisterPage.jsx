@@ -4,17 +4,8 @@ import Container from "../components/Container/Container";
 import InfoPanel from "../components/InfoPanel/InfoPanel";
 import RegisterForm from "../components/RegisterForm/RegisterForm";
 import AuthPrompt from "../components/AuthPrompt/AuthPrompt";
-import { useEffect } from "react";
 
 const RegisterPage = () => {
-  useEffect(() => {
-    document.body.style.overflow = "hidden";
-
-    return () => {
-      document.body.style.overflow = "auto";
-    };
-  }, []);
-
   return (
     <Container className={"py-[30px] max-w-[343px] "}>
       <div className="flex items-center md:justify-center gap-[10px] mb-[64px] md:mb-[50px]">
@@ -26,7 +17,7 @@ const RegisterPage = () => {
         </p>
       </div>
 
-      <div className="md:max-w-[476px] py-[40px] px-[40px] bg-white rounded-[10px] mx-auto">
+      <div className="py-[40px] rounded-[10px] mx-auto md:px-[40px] md:bg-white md:max-w-[476px]">
         <InfoPanel
           title={"Create account"}
           text={"Let's get you started sharing your links!"}
