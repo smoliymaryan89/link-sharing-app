@@ -48,7 +48,7 @@ const PreviewPage = () => {
   const backLinkLocationRef = useRef(location.state?.from ?? "/");
 
   return (
-    <Container>
+    <Container className={"pb-[16px]"}>
       <div className="sm:hidden bg-blue absolute top-0 left-0 h-[357px] rounded-b-[32px] w-full -z-10"></div>
       <header className="py-[16px] mb-[60px] md:mb-[126px] lg:mb-[106px]  md:mt-[16px] md:px-[16px] md:rounded-[12px] md:bg-white">
         <nav>
