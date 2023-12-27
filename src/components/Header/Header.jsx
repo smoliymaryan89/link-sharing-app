@@ -23,7 +23,7 @@ const Header = () => {
         <Link
           state={{ from: location }}
           to="/preview"
-          className="block py-[11px] px-[16px] border-[1px]  border-blue rounded-[8px] hover:bg-light-purple header-link transition-all duration-350 ease-in-out"
+          className="block py-[11px] px-[16px] border-[1px]  border-blue rounded-[8px] hover:bg-light-purple transition-all duration-350 ease-in-out"
         >
           <svg
             className="block fill-blue transition-colors duration-350 ease-in-out md:hidden"
@@ -32,9 +32,7 @@ const Header = () => {
           >
             <use href={`#${sprite}_eye`}></use>
           </svg>
-          <p className="hidden md:block text-blue font-semibold header-link">
-            Preview
-          </p>
+          <p className="hidden md:block text-blue font-semibold">Preview</p>
         </Link>
       </Container>
     </header>

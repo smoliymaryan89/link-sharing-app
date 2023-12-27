@@ -133,14 +133,14 @@ const ProfileForm = () => {
     >
       <div className="mb-[24px] bg-light-grey p-[20px] rounded-[12px] md:flex md:items-center">
         <p className="mb-[16px] flex-1">Profile picture</p>
-        <div className="profile-wrapper-input bg-light-purple text-center relative cursor-pointer w-[193px] h-[193px] mb-[24px] rounded-[12px] flex items-center justify-center flex-col gap-[8px] md:mr-[24px]">
+        <div className="group bg-light-purple text-center relative cursor-pointer w-[193px] h-[193px] mb-[24px] rounded-[12px] flex items-center justify-center flex-col gap-[8px] md:mr-[24px]">
           {imagePreview || image ? (
             <>
               <img
                 src={imagePreview || image}
                 className="w-full h-full absolute top-0 right-0 rounded-[12px] object-cover"
               />
-              <div className="change-img opacity-0 transition-opacity duration-350">
+              <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-350">
                 <svg
                   className="block mx-auto relative z-30 fill-white"
                   width={40}
@@ -193,10 +193,10 @@ const ProfileForm = () => {
             type="text"
             placeholder={"e.g. John"}
             iconStyle={"hidden"}
-            className={`profile-input md:ml-auto md:max-w-[344px] lg:max-w-[72%] ${
+            className={`!px-[16px] md:ml-auto md:max-w-[344px] lg:max-w-[72%] ${
               errors.firstName && touched.firstName
                 ? "border-red focus:border-red !pr-[230px]"
-                : "focus:border-blue box-shadow-input"
+                : "focus:border-blue focus:shadow-active-shadow"
             }`}
             wrapperStyles={"flex-grow"}
           />
@@ -224,10 +224,10 @@ const ProfileForm = () => {
             type="text"
             placeholder={"e.g. Appleseed"}
             iconStyle={"hidden"}
-            className={`profile-input md:ml-auto md:max-w-[344px] lg:max-w-[72%] ${
+            className={`!px-[16px] md:ml-auto md:max-w-[344px] lg:max-w-[72%] ${
               errors.lastName && touched.lastName
                 ? "border-red focus:border-red !pr-[230px]"
-                : "focus:border-blue box-shadow-input"
+                : "focus:border-blue focus:shadow-active-shadow"
             }`}
             wrapperStyles={"flex-grow"}
           />
@@ -255,10 +255,10 @@ const ProfileForm = () => {
             type="emailPreview"
             placeholder={"e.g. email@example.com"}
             iconStyle={"hidden"}
-            className={`profile-input md:ml-auto md:max-w-[344px] lg:max-w-[72%] ${
+            className={`!px-[16px] md:ml-auto md:max-w-[344px] lg:max-w-[72%] ${
               errors.emailPreview && touched.emailPreview
                 ? "border-red focus:border-red !pr-[230px]"
-                : "focus:border-blue box-shadow-input"
+                : "focus:border-blue focus:shadow-active-shadow"
             }`}
             wrapperStyles={"flex-grow"}
           />

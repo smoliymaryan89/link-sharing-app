@@ -129,7 +129,7 @@ const LinkItem = ({ handleDelete, item, linkList, index }) => {
           iconStyle={"w-[16px] h-[16px] fill-grey"}
           onChange={handleInput}
           placeholder={getPlaceholder(selectedLink ?? platform)}
-          className={"focus:border-blue box-shadow-input"}
+          className={"focus:border-blue focus:shadow-active-shadow"}
         />
       </div>
     </Reorder.Item>

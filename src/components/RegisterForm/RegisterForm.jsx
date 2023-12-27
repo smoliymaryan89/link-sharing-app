@@ -85,7 +85,7 @@ const RegisterForm = () => {
           className={
             errors.email && touched.email
               ? "border-red focus:border-red"
-              : "focus:border-blue box-shadow-input"
+              : "focus:border-blue focus:shadow-active-shadow"
           }
         />
 
@@ -115,7 +115,7 @@ const RegisterForm = () => {
           className={
             errors.password && touched.password
               ? "border-red focus:border-red"
-              : "focus:border-blue box-shadow-input"
+              : "focus:border-blue focus:shadow-active-shadow"
           }
         />
         {touched.password && errors.password ? (
@@ -146,7 +146,7 @@ const RegisterForm = () => {
           className={
             errors.confirmPassword && touched.confirmPassword
               ? "border-red focus:border-red"
-              : "focus:border-blue box-shadow-input"
+              : "focus:border-blue focus:shadow-active-shadow"
           }
         />
 
