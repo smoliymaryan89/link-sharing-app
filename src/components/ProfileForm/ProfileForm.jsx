@@ -1,5 +1,6 @@
 import { useFormik } from "formik";
 import { nanoid } from "nanoid";
+import toast from "react-hot-toast";
 
 import { useDispatch, useSelector } from "react-redux";
 import { updateUser } from "../../redux/user/userSlice";
@@ -14,7 +15,6 @@ import { profileValidationSchema } from "../../utils/validationSchemas";
 import sprite from "../../assets/icons/sprite.svg";
 import Input from "../Input/Input";
 import Button from "../Button/Button";
-import toast from "react-hot-toast";
 import CustomToast from "../CustomToast/CustomToast";
 import BtnLoader from "../Loader/BtnLoader";
 
@@ -133,14 +133,14 @@ const ProfileForm = () => {
     >
       <div className="mb-[24px] bg-light-grey p-[20px] rounded-[12px] md:flex md:items-center">
         <p className="mb-[16px] flex-1">Profile picture</p>
-        <div className="group bg-light-purple text-center relative cursor-pointer w-[193px] h-[193px] mb-[24px] rounded-[12px] flex items-center justify-center flex-col gap-[8px] md:mr-[24px]">
+        <div className="group bg-light-purple text-center relative cursor-pointer w-[193px] h-[193px] mb-[24px] rounded-[12px] flex items-center justify-center flex-col gap-[8px] md:mb-0 md:mr-[24px]">
           {imagePreview || image ? (
             <>
               <img
                 src={imagePreview || image}
                 className="w-full h-full absolute top-0 right-0 rounded-[12px] object-cover"
               />
-              <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-350">
+              <div className="opacity-0 group-hover:opacity-100 w-full h-full flex flex-col items-center justify-center backdrop-blur-[2px] transition-all duration-350">
                 <svg
                   className="block mx-auto relative z-30 fill-white"
                   width={40}
@@ -176,7 +176,7 @@ const ProfileForm = () => {
         </p>
       </div>
 
-      <div className=" bg-light-grey p-[20px] rounded-[12px] mb-[61px] md:flex md:gap-[12px] md:flex-col md:mb-[113px]">
+      <div className=" bg-light-grey p-[20px] rounded-[12px] mb-[61px] md:flex md:gap-[12px] md:flex-col md:mb-[136px]">
         <div className="md:flex md:items-center sm:mb-[12px] relative">
           <label
             htmlFor={firstName}
