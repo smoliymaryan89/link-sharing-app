@@ -38,7 +38,7 @@ const LinksPage = () => {
   const links = useSelector(selectLinks);
   const isLoading = useSelector(selectIsLoading);
 
-  const itemsArray = useMemo(() => [...linkList, ...links], [linkList, links]);
+  const itemsArray = useMemo(() => [...links, ...linkList], [linkList, links]);
 
   const matchingLink = findMatchingLink(previewLinks, links);
 

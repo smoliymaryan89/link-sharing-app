@@ -50,26 +50,7 @@ const PhonePreview = () => {
     }
   }, [dispatch, emailPreview, firstName, lastName, location.pathname]);
 
-  const combinedLinks = [
-    ...previewLinks.map((previewLink) => ({
-      ...previewLink,
-      platform:
-        previewLink.platform ||
-        links.find((link) => link.id === previewLink.id)?.platform,
-      url:
-        previewLink.url ||
-        links.find((link) => link.id === previewLink.id)?.url,
-    })),
-    ...links.filter(
-      (link) => !previewLinks.some((previewLink) => previewLink.id === link.id)
-    ),
-  ].sort(
-    (a, b) =>
-      links.findIndex((link) => link.id === a.id) -
-      links.findIndex((link) => link.id === b.id)
-  );
-
-  const linksArray = combinedLinks.slice(0, 5);
+  const linksArray = [...links, ...previewLinks].slice(0, 5);
 
   const fullName = `${firstName ?? ""} ${lastName ?? ""}`;
 
