@@ -8,8 +8,8 @@ import { selectUser } from "../../redux/user/userSelectors";
 import {
   selectLinks,
   selectPreviewLinks,
+  selectReorderedLinks,
 } from "../../redux/link/linkSelectors";
-
 import { getAllLinks } from "../../redux/link/linkOperations";
 import { getProfile, getUserAvatar } from "../../redux/user/userOperations";
 
@@ -26,6 +26,15 @@ const PhonePreview = () => {
 
   const links = useSelector(selectLinks);
   const previewLinks = useSelector(selectPreviewLinks);
+  const reorderedLinks = useSelector(selectReorderedLinks);
+
+  const updatedReorderList = reorderedLinks.map((item) => {
+    const matchingPreviewLink = previewLinks.find(
+      (previewItem) => previewItem.id === item.id
+    );
+
+    return matchingPreviewLink || item;
+  });
 
   useEffect(() => {
     if (links.length === 0 && location.pathname !== "/") {
@@ -49,8 +58,6 @@ const PhonePreview = () => {
       dispatch(getProfile());
     }
   }, [dispatch, emailPreview, firstName, lastName, location.pathname]);
-
-  const linksArray = [...links, ...previewLinks].slice(0, 5);
 
   const fullName = `${firstName ?? ""} ${lastName ?? ""}`;
 
@@ -98,7 +105,7 @@ const PhonePreview = () => {
         ) : null}
 
         <ul className="absolute top-[379px] left-[161px]">
-          {linksArray.slice(0, 5).map(({ id, platform, url }) => (
+          {updatedReorderList.slice(0, 5).map(({ id, platform, url }) => (
             <PreviewItem key={id} id={id} platform={platform} url={url} />
           ))}
         </ul>

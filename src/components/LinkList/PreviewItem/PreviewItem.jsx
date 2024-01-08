@@ -33,7 +33,7 @@ PreviewItem.propTypes = {
     color: PropTypes.string.isRequired,
     icon: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
-  }).isRequired,
+  }),
   url: PropTypes.string,
 };
 

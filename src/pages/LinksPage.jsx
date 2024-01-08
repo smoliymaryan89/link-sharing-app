@@ -8,11 +8,11 @@ import {
   selectPreviewLinks,
 } from "../redux/link/linkSelectors";
 import {
-  addLink,
   getAllLinks,
-  reorderLinkData,
+  addOrReorderLink,
   updateLink,
 } from "../redux/link/linkOperations";
+import { reorderedLinks } from "../redux/link/linkSlice";
 
 import sprite from "../assets/icons/sprite.svg";
 import findMatchingLink from "../utils/findMatchingLink";
@@ -27,6 +27,7 @@ import PhonePreview from "../components/PhonePreview/PhonePreview";
 
 const LinksPage = () => {
   const [linkList, setLinkList] = useState([]);
+  const [reorderList, setReorderList] = useState([]);
 
   const dispatch = useDispatch();
 
@@ -40,7 +41,15 @@ const LinksPage = () => {
 
   const itemsArray = useMemo(() => [...links, ...linkList], [linkList, links]);
 
-  const matchingLink = findMatchingLink(previewLinks, links);
+  useEffect(() => {
+    setReorderList(itemsArray);
+  }, [itemsArray]);
+
+  useEffect(() => {
+    dispatch(reorderedLinks(reorderList));
+  }, [dispatch, previewLinks, reorderList]);
+
+  const matchingLink = findMatchingLink(previewLinks, reorderList);
 
   const handleAddLink = () => {
     setLinkList([...linkList, { id: nanoid() }]);
@@ -49,16 +58,22 @@ const LinksPage = () => {
   const handleSave = () => {
     if (matchingLink) {
       dispatch(updateLink({ id: matchingLink.id, links: previewLinks }));
-      return;
     }
 
-    dispatch(reorderLinkData(links));
+    const updatedReorderList = reorderList.map((item) => {
+      const matchingPreviewLink = previewLinks.find(
+        (previewItem) => previewItem.id === item.id
+      );
+
+      return matchingPreviewLink || item;
+    });
+
+    dispatch(addOrReorderLink(updatedReorderList));
 
     if (previewLinks.length === 0) {
       return;
     }
 
-    dispatch(addLink(previewLinks));
     setLinkList([]);
   };
 
@@ -111,9 +126,10 @@ const LinksPage = () => {
                   } h-[510px]`}
                 >
                   <LinkList
-                    itemsArray={itemsArray}
                     linkList={linkList}
                     handleDelete={handleDelete}
+                    reorderList={reorderList}
+                    setReorderList={setReorderList}
                   />
                 </div>
               )

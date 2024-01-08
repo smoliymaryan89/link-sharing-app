@@ -1,23 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { instance, setAuthHeader } from "../auth/authOperations";
 
-export const addLink = createAsyncThunk(
-  "link/addLink",
-  async (linkData, { rejectWithValue, getState }) => {
-    const state = getState();
-    const persistedToken = state.auth.token;
-
-    try {
-      setAuthHeader(persistedToken);
-      const { data } = await instance.post("api/link/", { links: linkData });
-
-      return data;
-    } catch (error) {
-      return rejectWithValue(error);
-    }
-  }
-);
-
 export const getAllLinks = createAsyncThunk(
   "link/getLinks",
   async (_, { rejectWithValue, getState }) => {
@@ -54,7 +37,7 @@ export const updateLink = createAsyncThunk(
   }
 );
 
-export const reorderLinkData = createAsyncThunk(
+export const addOrReorderLink = createAsyncThunk(
   "link/reorderLinks",
   async (links, { rejectWithValue, getState }) => {
     const state = getState();
@@ -62,7 +45,7 @@ export const reorderLinkData = createAsyncThunk(
 
     try {
       setAuthHeader(persistedToken);
-      const { data } = await instance.patch(`api/link/reorder`, links);
+      const { data } = await instance.patch(`api/link/`, links);
 
       return data;
     } catch (error) {

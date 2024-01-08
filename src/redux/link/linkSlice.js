@@ -1,9 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
-  addLink,
+  addOrReorderLink,
   deleteLink,
   getAllLinks,
-  reorderLinkData,
   updateLink,
 } from "./linkOperations";
 import { handlePending, handleRejected, handleFulfilled } from "../handlers";
@@ -11,6 +10,7 @@ import { handlePending, handleRejected, handleFulfilled } from "../handlers";
 const initialState = {
   links: [],
   previewLinks: [],
+  reorderedLinks: [],
   isLoading: false,
   error: null,
 };
@@ -40,23 +40,12 @@ const linkSlice = createSlice({
         (item) => item.id !== action.payload
       );
     },
-    reorder: (state, action) => {
-      state.links = action.payload;
+    reorderedLinks: (state, action) => {
+      state.reorderedLinks = action.payload;
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(addLink.fulfilled, (state, { payload }) => {
-        payload.links.forEach((link) => {
-          if (!state.links.some((stateLink) => stateLink.id === link.id)) {
-            state.links.push(link);
-          }
-        });
-
-        state.previewLinks = [];
-
-        handleFulfilled(state);
-      })
       .addCase(getAllLinks.fulfilled, (state, { payload }) => {
         payload.forEach((item) => {
           item.links.forEach((link) => {
@@ -80,8 +69,10 @@ const linkSlice = createSlice({
 
         handleFulfilled(state);
       })
-      .addCase(reorderLinkData.fulfilled, (state, { payload }) => {
+      .addCase(addOrReorderLink.fulfilled, (state, { payload }) => {
         state.links = payload.links;
+        state.previewLinks = [];
+
         handleFulfilled(state);
       })
       .addCase(deleteLink.fulfilled, (state, action) => {
@@ -98,18 +89,16 @@ const linkSlice = createSlice({
 
         handleFulfilled(state);
       })
-      .addCase(addLink.pending, handlePending)
       .addCase(getAllLinks.pending, handlePending)
       .addCase(updateLink.pending, handlePending)
-      .addCase(reorderLinkData.pending, handlePending)
+      .addCase(addOrReorderLink.pending, handlePending)
       .addCase(deleteLink.pending, handlePending)
-      .addCase(addLink.rejected, handleRejected)
       .addCase(getAllLinks.rejected, handleRejected)
       .addCase(updateLink.rejected, handleRejected)
-      .addCase(reorderLinkData.rejected, handleRejected)
+      .addCase(addOrReorderLink.rejected, handleRejected)
       .addCase(deleteLink.rejected, handleRejected);
   },
 });
 
-export const { getData, deletePreviewLink, reorder } = linkSlice.actions;
+export const { getData, deletePreviewLink, reorderedLinks } = linkSlice.actions;
 export const linkReducer = linkSlice.reducer;
