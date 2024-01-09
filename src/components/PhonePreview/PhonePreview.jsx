@@ -15,6 +15,7 @@ import { getProfile, getUserAvatar } from "../../redux/user/userOperations";
 
 import PhoneIcon from "../../assets/icons/phone.svg";
 import PreviewItem from "../LinkList/PreviewItem/PreviewItem";
+import mergeItems from "../../utils/mergeItems";
 
 const PhonePreview = () => {
   const { image, imagePreview, lastName, firstName, emailPreview } =
@@ -32,8 +33,7 @@ const PhonePreview = () => {
     const matchingPreviewLink = previewLinks.find(
       (previewItem) => previewItem.id === item.id
     );
-
-    return matchingPreviewLink || item;
+    return mergeItems(item, matchingPreviewLink);
   });
 
   useEffect(() => {

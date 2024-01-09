@@ -16,6 +16,7 @@ import { reorderedLinks } from "../redux/link/linkSlice";
 
 import sprite from "../assets/icons/sprite.svg";
 import findMatchingLink from "../utils/findMatchingLink";
+import mergeItems from "../utils/mergeItems";
 
 import Container from "../components/Container/Container";
 import InfoPanel from "../components/InfoPanel/InfoPanel";
@@ -64,8 +65,7 @@ const LinksPage = () => {
       const matchingPreviewLink = previewLinks.find(
         (previewItem) => previewItem.id === item.id
       );
-
-      return matchingPreviewLink || item;
+      return mergeItems(item, matchingPreviewLink);
     });
 
     dispatch(addOrReorderLink(updatedReorderList));
