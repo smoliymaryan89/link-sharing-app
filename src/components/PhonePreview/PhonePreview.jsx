@@ -29,13 +29,6 @@ const PhonePreview = () => {
   const previewLinks = useSelector(selectPreviewLinks);
   const reorderedLinks = useSelector(selectReorderedLinks);
 
-  const updatedReorderList = reorderedLinks.map((item) => {
-    const matchingPreviewLink = previewLinks.find(
-      (previewItem) => previewItem.id === item.id
-    );
-    return mergeItems(item, matchingPreviewLink);
-  });
-
   useEffect(() => {
     if (links.length === 0 && location.pathname !== "/") {
       dispatch(getAllLinks());
@@ -58,6 +51,15 @@ const PhonePreview = () => {
       dispatch(getProfile());
     }
   }, [dispatch, emailPreview, firstName, lastName, location.pathname]);
+
+  const linksToUse = reorderedLinks.length > 0 ? reorderedLinks : links;
+
+  const updatedReorderList = linksToUse.map((item) => {
+    const matchingPreviewLink = previewLinks.find(
+      (previewItem) => previewItem.id === item.id
+    );
+    return mergeItems(item, matchingPreviewLink);
+  });
 
   const fullName = `${firstName ?? ""} ${lastName ?? ""}`;
 
