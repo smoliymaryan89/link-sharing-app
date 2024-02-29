@@ -40,7 +40,7 @@ const LinksPage = () => {
   const links = useSelector(selectLinks);
   const isLoading = useSelector(selectIsLoading);
 
-  const itemsArray = useMemo(() => [...links, ...linkList], [linkList, links]);
+  const itemsArray = useMemo(() => [...linkList, ...links], [linkList, links]);
 
   useEffect(() => {
     setReorderList(itemsArray);
